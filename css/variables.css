@@ -1,0 +1,59 @@
+:root {
+  /* Colors */
+  --color-primary: rgb(255, 105, 40);
+  --color-black: rgb(57, 57, 57);
+  --color-grey: rgb(142, 137, 137);
+  --color-light-grey: rgb(236, 236, 236);
+  --color-background: rgb(255, 255, 255);
+  --color-surface: rgb(249, 249, 249);
+  --color-border: rgb(239, 239, 239);
+  --color-border-light: rgba(136, 136, 136, 0.1);
+  --color-text-muted: rgb(207, 207, 207);
+  
+  /* Typography */
+  --font-family-primary: 'Inter', 'Inter Placeholder', sans-serif;
+  --font-size-xs: 12px;
+  --font-size-sm: 14px;
+  --font-size-base: 16px;
+  --font-size-lg: 18px;
+  --font-size-xl: 20px;
+  --font-size-2xl: 24px;
+  --font-size-3xl: 32px;
+  --font-size-4xl: 40px;
+  
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+  
+  /* Spacing */
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 16px;
+  --space-lg: 24px;
+  --space-xl: 32px;
+  --space-2xl: 48px;
+  --space-3xl: 64px;
+  
+  /* Border radius */
+  --radius-sm: 8px;
+  --radius-md: 19px;
+  --radius-lg: 25px;
+  --radius-xl: 34px;
+  --radius-full: 50%;
+  
+  /* Shadows */
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  
+  /* Layout */
+  --sidebar-width: 280px;
+  --container-max-width: 1200px;
+  --content-max-width: 800px;
+  
+  /* Animation */
+  --transition-fast: 150ms ease;
+  --transition-normal: 200ms ease;
+  --transition-slow: 300ms ease;
+}
