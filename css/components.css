@@ -1,219 +1,15 @@
-/* Component styles extracted from index1.html */
-
-/* Framer component base styles */
-[data-framer-component-type] {
-    position: absolute;
-}
-
-[data-framer-component-type=Text] {
-    cursor: inherit;
-}
-
-[data-framer-component-text-autosized] * {
-    white-space: pre;
-}
-
-[data-framer-component-type=Text] > * {
-    text-align: var(--framer-text-alignment, start);
-}
-
-/* Layout components */
-.framer-xBqXu.framer-72rtr7 {
-    align-content: flex-start;
-    align-items: flex-start;
-    background-color: #fff;
-    display: flex;
-    flex-direction: row;
-    flex-wrap: nowrap;
-    gap: 80px;
-    height: min-content;
-    justify-content: center;
-    overflow: visible;
-    padding: 0 60px 24px;
-    position: relative;
-    width: 1024px;
-}
-
-.framer-xBqXu .framer-1ocw0kr {
-    align-content: center;
-    align-items: center;
-    display: flex;
-    flex: none;
-    flex-direction: column;
-    flex-wrap: nowrap;
-    height: 100vh;
-    justify-content: space-between;
-    overflow: visible;
-    padding: 48px 0 32px;
-    position: sticky;
-    top: 0;
-    width: min-content;
-    z-index: 1;
-}
-
-.framer-xBqXu .framer-1e4k09g {
-    align-content: flex-start;
-    align-items: flex-start;
-    display: flex;
-    flex: 1 0 0px;
-    flex-direction: column;
-    flex-wrap: nowrap;
-    gap: 32px;
-    height: min-content;
-    justify-content: center;
-    max-width: 950px;
-    overflow: visible;
-    padding: 48px 0 0;
-    position: relative;
-    width: 1px;
-}
-
-/* Portfolio section styles */
-.framer-xBqXu .framer-1p9hj4y {
-    align-content: center;
-    align-items: center;
-    display: flex;
-    flex: none;
-    flex-direction: column;
-    flex-wrap: nowrap;
-    gap: 60px;
-    height: min-content;
-    justify-content: center;
-    overflow: visible;
-    padding: 0;
-    position: relative;
-    width: 100%;
-}
-
-.framer-xBqXu .framer-16z763c {
-    align-content: flex-start;
-    align-items: flex-start;
-    display: flex;
-    flex: none;
-    flex-direction: column;
-    flex-wrap: nowrap;
-    gap: 24px;
-    height: min-content;
-    justify-content: flex-start;
-    overflow: visible;
-    padding: 0;
-    position: relative;
-    scroll-margin-top: 160px;
-    width: 100%;
-}
-
-/* Skills and tech stack grid */
-.framer-xBqXu .framer-164zqm5 {
-    align-content: center;
-    align-items: center;
-    display: flex;
-    flex: none;
-    flex-direction: row;
-    flex-wrap: wrap;
-    gap: 10px;
-    height: min-content;
-    justify-content: flex-start;
-    overflow: visible;
-    padding: 0;
-    position: relative;
-    width: 100%;
-}
-
-/* Projects grid */
-.framer-xBqXu .framer-tj8002 {
-    display: grid;
-    flex: none;
-    gap: 32px;
-    grid-auto-rows: min-content;
-    grid-template-columns: repeat(1, minmax(200px, 1fr));
-    grid-template-rows: repeat(2, min-content);
-    height: min-content;
-    justify-content: center;
-    overflow: visible;
-    padding: 0;
-    position: relative;
-    width: 100%;
-}
-
-/* Form styles */
-.framer-form-input-wrapper {
-    overflow: hidden;
-    box-shadow: var(--framer-input-box-shadow);
-    border-radius: var(--framer-input-border-radius);
-    background: var(--framer-input-background);
-    transition: var(--framer-input-focused-transition);
-    transition-property: background, box-shadow;
-}
-
-.framer-form-input {
-    padding: var(--framer-input-padding);
-    background: transparent;
-    font-family: var(--framer-input-font-family);
-    font-weight: var(--framer-input-font-weight);
-    font-size: var(--framer-input-font-size);
-    color: var(--framer-input-font-color);
-    border: none;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    overflow: hidden;
-    width: 100%;
-    height: var(--framer-input-wrapper-height, 100%);
-    letter-spacing: var(--framer-input-font-letter-spacing);
-    text-align: var(--framer-input-font-text-alignment);
-    line-height: var(--framer-input-font-line-height);
-}
-
-.framer-form-input:focus-visible {
-    outline: none;
-}
-
-/* Responsive breakpoints */
-@media (min-width: 810px) and (max-width: 1023px) {
-    .framer-xBqXu.framer-72rtr7 {
-        align-content: center;
-        align-items: center;
-        flex-direction: column;
-        gap: 20px;
-        padding: 48px 40px 24px;
-        width: 810px;
-    }
-    
-    .framer-xBqXu .framer-1ocw0kr {
-        gap: 0px;
-        height: min-content;
-        justify-content: center;
-        position: relative;
-        top: unset;
-    }
-}
-
-@media (max-width: 809px) {
-    .framer-xBqXu.framer-72rtr7 {
-        align-content: center;
-        align-items: center;
-        flex-direction: column;
-        gap: 60px;
-        padding: 24px 20px;
-        width: 390px;
-    }
-    
-    .framer-xBqXu .framer-1ocw0kr {
-        width: 100%;
-    }
-}
-
 /* Component styles */
 
 /* Buttons */
 .btn {
   display: inline-flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   gap: var(--space-sm);
-  padding: var(--space-md) var(--space-lg);
+  padding: var(--space-sm) var(--space-md);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-xl);
-  font-size: var(--font-size-base);
+  font-size: 14px;
   font-weight: var(--font-weight-medium);
   text-decoration: none;
   transition: all var(--transition-normal);
@@ -233,14 +29,30 @@
 }
 
 .btn-secondary {
-  background-color: var(--color-surface);
-  color: var(--color-black);
-  border-color: var(--color-border);
+    background-color: #1f1f1f; /* Darker black */
+    color: white;
+    border-color: #1f1f1f;
+    border-radius: 30px; /* Match pill shape */
+    padding: 4px 12px;
+    margin-bottom: 22px; /* Increase space before social icons */
+    text-align: center;
+    justify-content: flex-start; /* Center text */
+    width: 100%; /* Full width to match status button */
+    max-width: 160px; /* Match status button width */
+    font-size: 13px;
+    letter-spacing: 0.02em;
+    font-weight: 500;
 }
 
 .btn-secondary:hover {
-  background-color: var(--color-border);
-  transform: translateY(-2px);
+  background-color: #333333; /* Lighter on hover */
+  border-color: #333333;
+  transform: translateY(-1px);
+}
+
+/* Hide the download icon */
+.download-cv-btn svg {
+  display: none;
 }
 
 /* Cards */
@@ -528,7 +340,7 @@
 
 .publication-date {
   font-size: var(--font-size-sm);
-  color: var(--color-grey);
+  color: var (--color-grey);
 }
 
 /* Contact section */
@@ -568,6 +380,119 @@
 
 .copy-button:hover {
   background-color: var(--color-border);
+}
+
+/* Status Button with Hover Animation - More pill-shaped */
+.status-button {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    width: 100%;
+    max-width: 160px;
+    padding: 10px 12px; /* Slightly reduced padding */
+    border: 1px solid #e2e2e2;
+    border-radius: 30px; /* More pill-shaped */
+    background: white;
+    margin-bottom: 8px; /* Space after button */
+    text-decoration: none;
+    color: inherit;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.status-content {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    width: 100%;
+    position: relative;
+}
+
+/* Status dot - Better positioned */
+.status-dot {
+    width: 8px;
+    height: 8px;
+    background-color: #c2e73d;
+    border-radius: 50%;
+    margin-right: 12px; /* Increased margin for better spacing */
+    margin-left: 2px; /* Small left margin */
+    flex-shrink: 0;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.status-text {
+    font-size: 13px; /* Slightly larger */
+    font-weight: 500;
+    color: #8e8989;
+    transition: all 0.3s ease;
+    position: absolute;
+    left: 22px; /* Aligned with dot + margin */
+    white-space: nowrap;
+}
+
+.status-text.default-text {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.status-text.hover-text {
+    opacity: 0;
+    transform: translateY(10px);
+}
+
+/* Hover Effects - Improved animation */
+.status-button:hover {
+    border-color: #d0d0d0;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+}
+
+.status-button:hover .status-dot {
+    background-color: #ff6928;
+    transform: scale(1.1);
+}
+
+.status-button:hover .default-text {
+    opacity: 0;
+    transform: translateY(-8px); /* Slightly faster transition */
+}
+
+.status-button:hover .hover-text {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Smooth color transition for text */
+.status-button:hover .status-text {
+    color: #393939; /* Darker text on hover */
+}
+
+/* Container spacing in sidebar */
+.sidebar-content {
+    display: flex;
+    flex-direction: column;
+    padding: 20px; /* Add consistent padding */
+    gap: 0; /* Remove gap to control spacing manually */
+}
+
+/* Overall button container spacing */
+.sidebar-content > .status-button {
+    margin-bottom: 8px; /* Space after status button */
+}
+
+.sidebar-content > .download-cv-btn {
+    margin-top: 0; /* Remove top margin */
+    margin-bottom: 16px; /* Add space before social links */
+}
+
+/* Social links spacing */
+.social-links {
+    margin-top: 0;
+    margin-bottom: 20px;
+    justify-content: center;
 }
 
 /* Responsive adjustments */
@@ -629,4 +554,241 @@
 .nav-item {
     opacity: 1;
     display: block;
+}
+
+/* Floating Navigation Container */
+.floating-nav-container {
+    position: fixed;
+    bottom: 24px;
+    left: 24px;
+    width: calc(235px - 48px); /* Match sidebar width minus padding */
+    z-index: 100;
+    will-change: transform;
+    opacity: 1;
+    transform: perspective(1200px);
+}
+
+/* Main Navigation Bar - Remove conflicting borders */
+.floating-nav {
+    background-color: rgba(250, 250, 250, 0.6);
+    backdrop-filter: blur(10px);
+    border: 1px solid #efefef;
+    border-radius: 9px;
+    padding: 12px;
+    display: flex;
+    flex-direction: column; /* Stack vertically */
+    gap: 8px;
+    opacity: 1;
+    position: relative;
+}
+
+/* Remove the duplicate border from the main nav */
+.floating-nav[data-border="true"]::after {
+    display: none; /* Remove this to prevent double borders */
+}
+
+/* Navigation Items Container */
+.nav-items {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* This prevents items from stretching to full width */
+    gap: 6px;
+    flex: 1;
+    opacity: 1;
+}
+
+/* Individual Navigation Items - Simplified border approach */
+.nav-item {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 3px 8px;
+    width: auto;
+    background-color: #f9f9f9;
+    border: 1px solid #cfcfcf;
+    border-radius: 8px;
+    color: #6a6666;
+    text-decoration: none;
+    font-size: 11px;
+    font-weight: 500;
+    white-space: nowrap;
+    transition: all 0.2s ease;
+    opacity: 1;
+    position: relative;
+    min-height: 25px;
+    box-sizing: border-box;
+}
+
+/* Remove the ::after pseudo-element borders that are causing conflicts */
+.nav-item[data-border="true"]::after {
+    display: none; /* Remove this to prevent double borders */
+}
+
+/* Active Navigation Item - Clean approach */
+.nav-item.active {
+    background-color: #f9f9f9;
+    border: 1px solid #ff6928; /* Direct border, no pseudo-elements */
+    color: #ff6928;
+}
+
+/* Remove conflicting pseudo-element for active state */
+.nav-item.active[data-border="true"]::after {
+    display: none;
+}
+
+/* Hover States - Clean approach */
+.nav-item:hover {
+    background-color: #f9f9f9;
+    border: 1px solid #d0c5c5; /* Direct border approach */
+    color: #b7afaf;
+    transform: translateY(-1px);
+}
+
+/* Active hover state */
+.nav-item.active:hover {
+    background-color: #f9f9f9;
+    border: 1px solid #8e8989;
+    color: #8e8989;
+    transform: translateY(-1px);
+}
+
+/* Navigation Text */
+.nav-text {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    flex-shrink: 0;
+    margin: 0;
+    padding: 0;
+}
+
+.nav-text p {
+    margin: 0;
+    padding: 0;
+    color: inherit;
+    font-size: inherit;
+    font-weight: inherit;
+    line-height: 1;
+}
+
+.nav-bottom-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    margin-top: auto;
+}
+
+/* Home Button Container */
+.home-button-container {
+    opacity: 1;
+    flex-shrink: 0;
+    align-self: flex-end; /* Push to bottom right */
+    margin-top: auto; /* Push to bottom */
+}
+
+.home-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 32px;
+    background-color: transparent;
+    border: none; /* Remove any borders */
+    border-radius: 12px;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    opacity: 1;
+}
+
+.home-button:hover {
+    transform: translateY(-1px);
+    background-color: transparent;
+}
+
+.home-button svg {
+    width: 26px;
+    height: 26px;
+    border-radius: 8px;
+    opacity: 1; /* Ensure SVG is fully visible */
+}
+
+/* Responsive adjustments */
+@media (min-width: 810px) and (max-width: 1023px) {
+    .floating-nav-container {
+        left: 40px;
+        width: calc(100% - 80px);
+        max-width: 600px;
+    }
+}
+
+@media (max-width: 809px) {
+    .floating-nav-container {
+        left: 20px;
+        right: 20px;
+        width: auto;
+    }
+    
+    .nav-items {
+        gap: 4px;
+    }
+    
+    .nav-item {
+        padding: 4px 8px;
+        font-size: 10px;
+        min-height: 24px;
+    }
+}
+
+/* Profile styling - Comprehensive fix */
+.profile {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* Center the image and name */
+    width: 100%;
+    margin-bottom: 8px; /* Space after profile section */
+}
+
+.profile-image {
+    width: 110px; /* Slightly smaller than current */
+    height: 110px;
+    border-radius: 50%;
+    overflow: hidden;   
+    margin-bottom: 16px; /* Reduced margin */    
+    box-shadow: rgba(73, 73, 73, 0.3) 0px 6px 32px 0px; /* Softer shadow */
+    align-self: center; /* Center the image */
+}
+
+.profile-name {
+    font-size: 46px; /* Slightly smaller to match original */
+    font-weight: 600; /* Slightly bolder */
+    color: #ff6928; /* Exact orange color */
+    margin: 0 0 12px 0; /* Remove top margin, keep bottom */
+    letter-spacing: -0.02em;
+    line-height: 1;
+    align-self: flex-start; /* Center the name */
+    text-align: center; /* Center text */
+}
+
+/* Container for title and location to control alignment */
+.profile-info {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* Center content */
+    margin-bottom: 8px; /* Space after info */
+}
+
+.profile-title {
+    font-size: 14px; /* Match original size */
+    color: #393939; /* Darker text */
+    margin: 0 0 6px 0; /* Tight spacing */
+    line-height: 1.3;
+    text-align: center;
+}
+
+.profile-location {
+    font-size: 12px; /* Match original size */
+    color: #8e8989; /* Exact gray color */
+    margin: 0;
+    line-height: 1.2;
+    text-align: center;
 }

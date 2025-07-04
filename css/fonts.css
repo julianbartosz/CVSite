@@ -1,25 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
-/* Font declarations extracted from index1.html */
-
-@font-face {
-    font-family: "Avenir LT Std 85 Heavy";
-    src: url(https://framerusercontent.com/assets/BlL7XIFQrfcBKwWeX7Rd0lW7s.woff2);
-    font-display: swap;
-}
-
-@font-face {
-    font-family: "Avenir LT Std 55 Roman";
-    src: url(https://framerusercontent.com/assets/t02JYUvV7VJhbctpZtO9PDWSQ.woff2);
-    font-display: swap;
-}
-
-@font-face {
-    font-family: "Avenir LT Std 35 Light";
-    src: url(https://framerusercontent.com/assets/H5hACeqaahCjWMhfWlkzkeS0atI.woff2);
-    font-display: swap;
-}
-
 /* Inter font family - various weights and styles */
 @font-face {
     font-family: Inter;

@@ -4,27 +4,27 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Julian Bartosz | Portfolio</title>
-    <meta name="description" content="Julian Bartosz is a technically-savvy Software Engineer with over 3 years of experience in UX, UI, front-end development, and consumer behavior.">
+    <meta name="description" content="Julian Bartosz is a technically-savvy Software Engineer with over 2 years of experience in UX, UI, front-end development, and consumer behavior.">
     
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://julianbartosz.dev/">
     <meta property="og:title" content="Julian Bartosz | Portfolio">
     <meta property="og:description" content="Technically-savvy Software Engineer with expertise in UX, UI, and front-end development.">
-    <meta property="og:image" content="https://julianbartosz.dev/DSC09921.jpg">
+    <meta property="og:image" content="https://julianbartosz.dev/DSC09920.png">
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
     <meta property="twitter:url" content="https://julianbartosz.dev/">
     <meta property="twitter:title" content="Julian Bartosz | Portfolio">
     <meta property="twitter:description" content="Technically-savvy Software Engineer with expertise in UX, UI, and front-end development.">
-    <meta property="twitter:image" content="https://julianbartosz.dev/DSC09921.jpg">
+    <meta property="twitter:image" content="https://julianbartosz.dev/DSC09920.png">
 
     <!-- Favicon -->
-    <link rel="icon" type="image/x-icon" href="/favicon.ico">
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="icon" type="image/x-icon" href="images/favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="images/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="images/favicon-16x16.png">
 
     <!-- Stylesheets -->
     <link rel="stylesheet" href="css/reset.css">
@@ -45,18 +45,31 @@
                 <!-- Profile Section -->
                 <div class="profile">
                     <div class="profile-image">
-                        <img src="images/DSC09921.JPG" alt="Julian Bartosz">
+                        <img src="images/DSC09920.png" alt="Julian Bartosz">
                     </div>
-                    <h2 class="profile-name">Julian</h2>
-                    <p class="profile-title">Software Engineer</p>
-                    <p class="profile-location">Chicago, USA</p>
+                    <h1 class="profile-name">Julian</h1>
+                    <div class="profile-info">
+                        <div class="profile-title">Software Engineer</div>
+                        <div class="profile-location">Chicago, USA</div>
+                    </div>
                 </div>
 
                 <!-- Status -->
-                <div class="status">
-                    <div class="status-dot"></div>
-                    <span>Available for work</span>
-                </div>
+                <a href="#contact" class="status-button">
+                    <div class="status-content">
+                        <div class="status-dot"></div>
+                        <span class="status-text default-text">Available for work</span>
+                        <span class="status-text hover-text">Contact me</span>
+                    </div>
+                </a>
+
+                <!-- Download CV Button -->
+                <a href="#" class="btn btn-secondary download-cv-btn" onclick="downloadCV()">
+                    <span>Download CV</span>
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+                        <path d="M8 0C8.276 0 8.5 0.224 8.5 0.5V10.793L11.146 8.146C11.342 7.951 11.658 7.951 11.854 8.146C12.049 8.342 12.049 8.658 11.854 8.854L8.354 12.354C8.158 12.549 7.842 12.549 7.646 12.354L4.146 8.854C3.951 8.658 3.951 8.342 4.146 8.146C4.342 7.951 4.658 7.951 4.854 8.146L7.5 10.793V0.5C7.5 0.224 7.724 0 8 0ZM1 14.5C1 14.224 1.224 14 1.5 14H14.5C14.776 14 15 14.224 15 14.5C15 14.776 14.776 15 14.5 15H1.5C1.224 15 1 14.776 1 14.5Z"/>
+                    </svg>
+                </a>
 
                 <!-- Social Links -->
                 <div class="social-links">
@@ -79,24 +92,51 @@
                     </a>
                 </div>
 
-                <!-- Navigation -->
-                <nav class="nav-scroll">
-                    <ul class="nav-list">
-                        <li><a href="#about" class="nav-item active">About</a></li>
-                        <li><a href="#case-studies" class="nav-item">Case Studies</a></li>
-                        <li><a href="#techstack" class="nav-item">Tech Stack</a></li>
-                        <li><a href="#experience" class="nav-item">Experience</a></li>
-                        <li><a href="#recommendations" class="nav-item">Recommendations</a></li>
-                        <li><a href="#publications" class="nav-item">Publications</a></li>
-                        <li><a href="#education" class="nav-item">Education</a></li>
-                        <li><a href="#contact" class="nav-item">Contact</a></li>
-                    </ul>
-                </nav>
+                <!-- Floating Navigation Bar -->
+                <div class="floating-nav-container">
+                    <nav class="floating-nav">
+                        <div class="nav-items">
+                            <a href="#about" class="nav-item active">
+                                <div class="nav-text"><p>About Me</p></div>
+                            </a>
+                            <a href="#case-studies" class="nav-item">
+                                <div class="nav-text"><p>Case Studies</p></div>
+                            </a>
+                            <a href="#techstack" class="nav-item">
+                                <div class="nav-text"><p>Tech Stack</p></div>
+                            </a>
+                            <a href="#experience" class="nav-item">
+                                <div class="nav-text"><p>Experience</p></div>
+                            </a>
+                            <a href="#publications" class="nav-item">
+                                <div class="nav-text"><p>Publications</p></div>
+                            </a>
+                            <a href="#recommendations" class="nav-item">
+                                <div class="nav-text"><p>Recommendations</p></div>
+                            </a>
+                        </div>
+                        
+                        <!-- Bottom row with Education and Home button -->
+                        <div class="nav-bottom-row">
+                            <a href="#education" class="nav-item">
+                                <div class="nav-text"><p>Education</p></div>
+                            </a>
+                            <div class="home-button-container">
+                                <a href="#about" class="home-button">
+                                    <svg width="26" height="26" viewBox="0 0 26 26" fill="none">
+                                        <path d="M 8 26 C 3.582 26 0 26 0 26 L 0 0 C 0 0 3.582 0 8 0 L 18 0 C 22.418 0 26 0 26 0 L 26 26 C 26 26 22.418 26 18 26 Z" fill="rgb(58, 58, 58)"></path>
+                                        <path d="M 20.148 12.04 L 13.398 5.29 C 13.346 5.238 13.284 5.196 13.216 5.168 C 13.148 5.14 13.074 5.125 13 5.125 C 12.927 5.125 12.853 5.14 12.785 5.168 C 12.717 5.196 12.655 5.238 12.602 5.29 L 5.852 12.04 C 5.774 12.119 5.72 12.219 5.698 12.328 C 5.677 12.437 5.688 12.55 5.73 12.653 C 5.773 12.756 5.845 12.844 5.938 12.906 C 6.03 12.968 6.139 13.001 6.25 13 L 9.063 13 L 9.063 18.625 C 9.063 18.924 9.181 19.21 9.392 19.421 C 9.603 19.632 9.89 19.75 10.188 19.75 L 15.813 19.75 C 16.111 19.75 16.398 19.632 16.608 19.421 C 16.819 19.21 16.938 18.924 16.938 18.625 L 16.938 13 L 19.75 13 C 19.862 13.001 19.971 12.968 20.063 12.906 C 20.156 12.844 20.228 12.756 20.27 12.653 C 20.313 12.55 20.324 12.437 20.303 12.328 C 20.281 12.219 20.227 12.119 20.148 12.04 Z" fill="rgb(255,255,255)"></path>
+                                    </svg>
+                                </a>
+                            </div>
+                        </div>
+                    </nav>
+                </div>
             </div>
         </aside>
 
         <!-- Home Button -->
-        <a href="#about" class="home-button">🏠 Home</a>
+        <!-- <a href="#about" class="home-button">🏠 Home</a> -->
 
         <!-- Main Content -->
         <main class="main-content">
@@ -105,7 +145,7 @@
                 <section id="about" class="section">
                     <h6 class="section-title">About Me</h6>
                     <h1 style="font-size: 2.5rem; font-weight: 600; margin-bottom: 1.5rem; line-height: 1.2;">
-                        Hey! I'm Julian Bartosz, a Technically-Savvy Software Engineer With Over 3 Years of Experience.
+                        Hey! I'm Julian Bartosz, a Technically-Savvy Software Engineer With Over 2 Years of Experience.
                     </h1>
                     <p style="font-size: 1.125rem; color: var(--color-grey); margin-bottom: 2rem; line-height: 1.6;">
                         With a diverse skillset in UX, UI, front-end development, and consumer behavior, I bring a unique blend of creativity, technical proficiency and strategic thinking to every project.
@@ -242,7 +282,7 @@
                     <h6 class="section-title">Recommendations</h6>
                     <div class="testimonial-card">
                         <p class="testimonial-content">
-                            "Firas has a strong understanding of user needs, design thinking, and data-driven decision-making. He improved our existing user flows and created new landing pages that were not only visually appealing but were also functional and aligned with our brand goals. This led to improvements in engagement, lead generation, and overall conversion rates."
+                            "Julian has a strong understanding of user needs, design thinking, and data-driven decision-making. He improved our existing user flows and created new landing pages that were not only visually appealing but were also functional and aligned with our brand goals. This led to improvements in engagement, lead generation, and overall conversion rates."
                         </p>
                         <div class="testimonial-author">
                             <div class="testimonial-avatar" style="background-color: #f0f0f0; display: flex; align-items: center; justify-content: center; font-weight: bold;">JD</div>

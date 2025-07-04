@@ -50,15 +50,21 @@ gtag('config', 'G-LSY3CJL7EP');
 
 // Main JavaScript functionality
 document.addEventListener('DOMContentLoaded', function() {
+    // Initialize navigation first
+    initializeNavigation();
+    
+    // Then set up scroll listener
+    window.addEventListener('scroll', updateActiveNavItem);
+    
     // Ensure sidebar elements are visible first
     ensureSidebarVisibility();
     
-    // Then initialize animations
+    // Other initializations...
     setTimeout(() => {
         initializeGSAP();
-        initializeNavigation();
         initializeScrollEffects();
         initializeMobileMenu();
+        initializeStatusButton();
     }, 100);
 });
 
@@ -372,12 +378,10 @@ function initializeHoverAnimations() {
     });
 }
 
-// Navigation functionality
+// Enhanced click handling with animation
 function initializeNavigation() {
     const navItems = document.querySelectorAll('.nav-item');
-    const sections = document.querySelectorAll('.section');
     
-    // Handle navigation clicks
     navItems.forEach(item => {
         item.addEventListener('click', function(e) {
             e.preventDefault();
@@ -385,45 +389,46 @@ function initializeNavigation() {
             const targetSection = document.getElementById(targetId);
             
             if (targetSection) {
+                // Animate the clicked item
+                gsap.timeline()
+                    .to(this, { scale: 0.95, duration: 0.1 })
+                    .to(this, { scale: 1, duration: 0.1 });
+                
+                // Smooth scroll to section
                 targetSection.scrollIntoView({
                     behavior: 'smooth',
                     block: 'start'
                 });
+                
+                // Update active state immediately
+                navItems.forEach(nav => nav.classList.remove('active'));
+                this.classList.add('active');
             }
-            
-            // Update active state
-            updateActiveNavItem(this);
         });
     });
     
-    // Update active navigation item based on scroll position
-    function updateActiveNavItem(clickedItem = null) {
-        if (clickedItem) {
-            navItems.forEach(item => item.classList.remove('active'));
-            clickedItem.classList.add('active');
-            return;
-        }
-        
-        // Auto-update based on scroll position
-        let currentSection = '';
-        sections.forEach(section => {
-            const sectionTop = section.offsetTop;
-            const sectionHeight = section.clientHeight;
-            if (window.pageYOffset >= sectionTop - 100) {
-                currentSection = section.getAttribute('id');
-            }
-        });
-        
-        navItems.forEach(item => {
-            item.classList.remove('active');
-            if (item.getAttribute('href') === `#${currentSection}`) {
-                item.classList.add('active');
-            }
+    // Home button functionality
+    const homeButton = document.querySelector('.home-button');
+    if (homeButton) {
+        homeButton.addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            // Animate home button
+            gsap.timeline()
+                .to(this, { scale: 0.9, duration: 0.1 })
+                .to(this, { scale: 1, duration: 0.2, ease: 'back.out(1.7)' });
+            
+            // Scroll to top
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+            
+            // Set first nav item as active
+            navItems.forEach(nav => nav.classList.remove('active'));
+            if (navItems[0]) navItems[0].classList.add('active');
         });
     }
-    
-    // Update active nav on scroll
-    window.addEventListener('scroll', updateActiveNavItem);
 }
 
 // Scroll effects and animations
@@ -529,9 +534,54 @@ function initializeMobileMenu() {
     });
 }
 
+// Download CV functionality
+function downloadCV() {
+    // You can replace this with the actual path to your CV file
+    const cvUrl = 'assets/Julian_Bartosz_CV.pdf'; // Update this path to your actual CV file
+    
+    // Create a temporary link element
+    const link = document.createElement('a');
+    link.href = cvUrl;
+    link.download = 'Julian_Bartosz_CV.pdf';
+    
+    // Animate the download button
+    const button = document.querySelector('.download-cv-btn');
+    if (button) {
+        gsap.timeline()
+            .to(button, {
+                scale: 0.95,
+                duration: 0.1,
+                ease: 'power2.out'
+            })
+            .to(button, {
+                scale: 1.02,
+                duration: 0.2,
+                ease: 'back.out(1.7)'
+            })
+            .to(button, {
+                scale: 1,
+                duration: 0.1,
+                ease: 'power2.out'
+            });
+    }
+    
+    // Trigger download
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    
+    // Optional: Track download event (for analytics)
+    if (typeof gtag !== 'undefined') {
+        gtag('event', 'download', {
+            event_category: 'CV',
+            event_label: 'Julian_Bartosz_CV.pdf'
+        });
+    }
+}
+
 // Copy email functionality with enhanced animation
 function copyEmail() {
-    const email = 'hello@firas.me';
+    const email = 'bartoszjul@gmail.com';
     navigator.clipboard.writeText(email).then(() => {
         const button = document.querySelector('.copy-button');
         const originalText = button.textContent;
@@ -712,5 +762,108 @@ function ensureSidebarVisibility() {
     sidebarElements.forEach(element => {
         element.style.opacity = '1';
         element.style.visibility = 'visible';
+    });
+}
+
+// Replace your updateActiveNavItem function with this enhanced version:
+
+function updateActiveNavItem() {
+    const sections = document.querySelectorAll('.section');
+    const navItems = document.querySelectorAll('.nav-item');
+    
+    let currentSection = '';
+    const scrollPos = window.scrollY + 200;
+    
+    // Find the current section
+    sections.forEach(section => {
+        const sectionTop = section.offsetTop;
+        const sectionHeight = section.offsetHeight;
+        
+        if (scrollPos >= sectionTop && scrollPos < sectionTop + sectionHeight) {
+            currentSection = section.getAttribute('id');
+        }
+    });
+    
+    // Update active states
+    navItems.forEach(item => {
+        item.classList.remove('active');
+        const href = item.getAttribute('href');
+        if (href === `#${currentSection}`) {
+            item.classList.add('active');
+            
+            // Add a subtle animation when becoming active
+            gsap.fromTo(item, 
+                { scale: 0.95 },
+                { scale: 1, duration: 0.2, ease: 'back.out(1.7)' }
+            );
+        }
+    });
+}
+
+// Add scroll listener
+window.addEventListener('scroll', updateActiveNavItem);
+
+// Add this function to enhance the status button animation:
+
+function initializeStatusButton() {
+    const statusButton = document.querySelector('.status-button');
+    
+    if (!statusButton) return;
+    
+    statusButton.addEventListener('mouseenter', function() {
+        // Add GSAP animation for smoother effect
+        gsap.timeline()
+            .to('.default-text', {
+                opacity: 0,
+                y: -10,
+                duration: 0.2,
+                ease: 'power2.out'
+            })
+            .to('.hover-text', {
+                opacity: 1,
+                y: 0,
+                duration: 0.2,
+                ease: 'power2.out'
+            }, 0.1)
+            .to('.status-dot', {
+                backgroundColor: '#ff6928',
+                scale: 1.1,
+                duration: 0.3,
+                ease: 'back.out(1.7)'
+            }, 0);
+    });
+    
+    statusButton.addEventListener('mouseleave', function() {
+        gsap.timeline()
+            .to('.hover-text', {
+                opacity: 0,
+                y: 10,
+                duration: 0.2,
+                ease: 'power2.out'
+            })
+            .to('.default-text', {
+                opacity: 1,
+                y: 0,
+                duration: 0.2,
+                ease: 'power2.out'
+            }, 0.1)
+            .to('.status-dot', {
+                backgroundColor: '#c2e73d',
+                scale: 1,
+                duration: 0.3,
+                ease: 'back.out(1.7)'
+            }, 0);
+    });
+    
+    // Smooth scroll to contact section on click
+    statusButton.addEventListener('click', function(e) {
+        e.preventDefault();
+        const contactSection = document.getElementById('contact');
+        if (contactSection) {
+            contactSection.scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
+            });
+        }
     });
 }
