@@ -103,20 +103,6 @@ body {
   margin-bottom: 8px;
 }
 
-.profile-image {
-  width: 130px;
-  height: 130px;
-  border-radius: 50%;
-  overflow: hidden;
-  margin-bottom: 16px;
-  box-shadow: rgba(97, 97, 97, 0.505) 0px 8px 36px 0px;
-  margin-left: 0;
-  align-self: center;
-  position: relative;
-  z-index: 1;
-  transition: none !important;
-}
-
 .profile-image img {
   width: 100%;
   height: 100%;
@@ -1107,17 +1093,17 @@ body {
 
 /* Profile Image - Clean solution with absolute sizing */
 .profile-image {
-    width: 130px;
-    height: 130px;
-    border-radius: 50%;
-    overflow: hidden;   
-    margin-bottom: 16px;    
-    box-shadow: rgba(97, 97, 97, 0.505) 0px 8px 36px 0px;
-    /* Remove all alignment properties that might conflict */
-    margin-left: 0;
-    align-self: center;
-    position: relative;
-    z-index: 1;
+  width: 130px;
+  height: 130px;
+  border-radius: 50%;
+  overflow: hidden;   
+  margin-bottom: 16px;    
+  box-shadow: rgba(97, 97, 97, 0.505) 0px 8px 36px 0px;
+  /* Remove all alignment properties that might conflict */
+  margin-left: 0;
+  align-self: flex-start;
+  position: relative;
+  z-index: 1;
 }
 
 .profile-name {
