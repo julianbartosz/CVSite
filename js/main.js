@@ -53,95 +53,75 @@ document.addEventListener('DOMContentLoaded', function() {
     // Initialize navigation first
     initializeNavigation();
     
-    // Then set up scroll listener
+    // Set up scroll listener
     window.addEventListener('scroll', updateActiveNavItem);
     
-    // Ensure sidebar elements are visible first
-    ensureSidebarVisibility();
+    // Important: DO NOT call ensureSidebarVisibility() as it overrides animations
     
-    // Other initializations...
+    // Add profile image fix
+    preventProfileImageScrollEffect();
+    
+    // Fix: Remove initializeGSAP() from here and ONLY use enhanceSidebarAnimations
     setTimeout(() => {
-        initializeGSAP();
+        enhanceSidebarAnimations(); // This should handle ALL sidebar animations
         initializeScrollEffects();
         initializeMobileMenu();
         initializeStatusButton();
+        
+        // Call the new animation function and remove the old one
+        initializeStatusDotAnimationAlternative();
+        // Do NOT call initializeStatusDotAnimation(); - it doesn't work reliably
     }, 100);
+
+    // Use the alternative method which will actually work with DOM elements
+    initializeStatusDotAnimationAlternative();
 });
 
-// Initialize GSAP and register ScrollTrigger
-function initializeGSAP() {
-    gsap.registerPlugin(ScrollTrigger);
-    
-    // Set initial states ONLY for main content elements, not sidebar
-    gsap.set('.section', { opacity: 0, y: 50 });
-    gsap.set('.project-card', { opacity: 0, y: 30, scale: 0.95 });
-    gsap.set('.experience-card', { opacity: 0, x: -30 });
-    gsap.set('.tech-item', { opacity: 0, y: 20, scale: 0.9 });
-    gsap.set('.tag', { opacity: 0, scale: 0.8 });
-    gsap.set('.testimonial-card', { opacity: 0, y: 40 });
-    gsap.set('.publication-item', { opacity: 0, x: 20 });
-    
-    // DON'T set initial states for sidebar elements - let them be visible by default
-    
-    // Sidebar entrance animation with delay to ensure elements are ready
-    gsap.timeline({ delay: 0.2 })
-        .from('.profile-image', { 
-            duration: 0.8, 
-            scale: 0.8, 
-            opacity: 0, 
-            ease: 'back.out(1.7)' 
-        })
-        .from('.profile-name', { 
-            duration: 0.6, 
-            y: 20, 
-            opacity: 0, 
-            ease: 'power2.out' 
-        }, '-=0.4')
-        .from('.profile-title', { 
-            duration: 0.6, 
-            y: 15, 
-            opacity: 0, 
-            ease: 'power2.out' 
-        }, '-=0.3')
-        .from('.status', { 
-            duration: 0.6, 
-            scale: 0.9, 
-            opacity: 0, 
-            ease: 'back.out(1.7)' 
-        }, '-=0.2')
-        .from('.social-link', { 
-            duration: 0.5, 
-            y: 20, 
-            opacity: 0, 
-            stagger: 0.1, 
-            ease: 'power2.out' 
-        }, '-=0.3')
-        .from('.nav-item', { 
-            duration: 0.4, 
-            x: -20, 
-            opacity: 0, 
-            stagger: 0.05, 
-            ease: 'power2.out' 
-        }, '-=0.2');
-    
-    // Status dot animation
-    gsap.to('.status-dot', {
-        duration: 2,
-        scale: 1.2,
-        opacity: 0.5,
-        repeat: -1,
-        yoyo: true,
-        ease: 'power2.inOut'
+// Enhanced scroll animations with GSAP for Priority 1 implementation
+function initializeScrollAnimations() {
+    // Enhanced case study animations with staggered entrance
+    gsap.utils.toArray('.case-study-item').forEach((item, index) => {
+        // Set initial state for better loading experience
+        gsap.set(item, { opacity: 0, y: 60, scale: 0.95 });
+        
+        // Main case study animation
+        gsap.to(item, {
+            opacity: 1,
+            y: 0,
+            scale: 1,
+            duration: 0.8,
+            ease: 'power2.out',
+            delay: index * 0.2, // Stagger animation
+            scrollTrigger: {
+                trigger: item,
+                start: 'top 85%',
+                end: 'bottom 15%',
+                toggleActions: 'play none none reverse'
+            }
+        });
+        
+        // Parallax effect for case study cards
+        const card = item.querySelector('.case-study-card');
+        const image = item.querySelector('.case-study-image');
+        
+        if (card && image) {
+            gsap.to(image, {
+                yPercent: -15,
+                ease: 'none',
+                scrollTrigger: {
+                    trigger: card,
+                    start: 'top bottom',
+                    end: 'bottom top',
+                    scrub: 1 // Smooth parallax scroll
+                }
+            });
+        }
     });
     
-    // Main content animations
-    initializeScrollAnimations();
-}
-
-// Enhanced scroll animations with GSAP
-function initializeScrollAnimations() {
-    // Section animations
+    // Enhanced section animations with loading states
     gsap.utils.toArray('.section').forEach((section, index) => {
+        gsap.set(section, { opacity: 0, y: 50 });
+        
         gsap.to(section, {
             opacity: 1,
             y: 0,
@@ -294,25 +274,46 @@ function initializeHoverAnimations() {
             });
         });
     });
+
+    // Replace the existing Tech item hover effects with this code
     
-    // Tech item hover effects
+    // Tech item hover effects - color changes only, no movement
     document.querySelectorAll('.tech-item').forEach(item => {
         item.addEventListener('mouseenter', () => {
+            // No scale/movement change, just color changes
             gsap.to(item, {
-                y: -5,
-                scale: 1.05,
+                borderColor: '#fd7338',
                 duration: 0.2,
                 ease: 'power2.out'
             });
+            
+            // Change text color
+            const techName = item.querySelector('.tech-name');
+            if (techName) {
+                gsap.to(techName, {
+                    color: '#fd7338',
+                    duration: 0.2,
+                    ease: 'power2.out'
+                });
+            }
         });
         
         item.addEventListener('mouseleave', () => {
             gsap.to(item, {
-                y: 0,
-                scale: 1,
+                borderColor: 'var(--color-light-grey)',
                 duration: 0.2,
                 ease: 'power2.out'
             });
+            
+            // Reset text color
+            const techName = item.querySelector('.tech-name');
+            if (techName) {
+                gsap.to(techName, {
+                    color: 'rgb(118, 118, 118)',
+                    duration: 0.2,
+                    ease: 'power2.out'
+                });
+            }
         });
     });
     
@@ -320,8 +321,6 @@ function initializeHoverAnimations() {
     document.querySelectorAll('.social-link').forEach(link => {
         link.addEventListener('mouseenter', () => {
             gsap.to(link, {
-                y: -3,
-                scale: 1.1,
                 duration: 0.2,
                 ease: 'back.out(1.7)'
             });
@@ -329,8 +328,6 @@ function initializeHoverAnimations() {
         
         link.addEventListener('mouseleave', () => {
             gsap.to(link, {
-                y: 0,
-                scale: 1,
                 duration: 0.2,
                 ease: 'power2.out'
             });
@@ -338,11 +335,9 @@ function initializeHoverAnimations() {
     });
     
     // Button hover effects
-    document.querySelectorAll('.btn').forEach(btn => {
+    document.querySelectorAll('.btn:not(.btn-secondary)').forEach(btn => {
         btn.addEventListener('mouseenter', () => {
             gsap.to(btn, {
-                y: -2,
-                scale: 1.02,
                 duration: 0.2,
                 ease: 'power2.out'
             });
@@ -350,28 +345,29 @@ function initializeHoverAnimations() {
         
         btn.addEventListener('mouseleave', () => {
             gsap.to(btn, {
-                y: 0,
-                scale: 1,
                 duration: 0.2,
                 ease: 'power2.out'
             });
         });
     });
     
-    // Tag hover effects
+    // Tag hover effects - border only, no movement
     document.querySelectorAll('.tag').forEach(tag => {
         tag.addEventListener('mouseenter', () => {
+            // No scale change, just color changes
             gsap.to(tag, {
-                scale: 1.05,
-                duration: 0.2,
-                ease: 'back.out(1.7)'
+                borderColor: '#fd7338',
+                color: '#fd7338', // Add text color change
+                duration: 0,
+                ease: 'power2.out'
             });
         });
         
         tag.addEventListener('mouseleave', () => {
             gsap.to(tag, {
-                scale: 1,
-                duration: 0.2,
+                borderColor: 'var(--color-light-grey)',
+                color: 'grey', // Return to original text color
+                duration: 0,
                 ease: 'power2.out'
             });
         });
@@ -435,18 +431,6 @@ function initializeNavigation() {
 function initializeScrollEffects() {
     // Initialize hover animations
     initializeHoverAnimations();
-    
-    // Parallax effect for profile image
-    gsap.to('.profile-image', {
-        y: -20,
-        ease: 'none',
-        scrollTrigger: {
-            trigger: 'body',
-            start: 'top top',
-            end: 'bottom top',
-            scrub: 1
-        }
-    });
     
     // Navbar active state animation
     const navItems = document.querySelectorAll('.nav-item');
@@ -523,25 +507,6 @@ function initializeMobileMenu() {
     });
     
     // Close mobile menu when clicking outside
-    document.addEventListener('click', (e) => {
-        if (window.innerWidth <= 1023 && 
-            !sidebar.contains(e.target) && 
-            !mobileMenuBtn.contains(e.target) &&
-            sidebar.classList.contains('open')) {
-            sidebar.classList.remove('open');
-            mobileMenuBtn.innerHTML = '☰';
-        }
-    });
-}
-
-// Download CV functionality
-function downloadCV() {
-    // You can replace this with the actual path to your CV file
-    const cvUrl = 'assets/Julian_Bartosz_CV.pdf'; // Update this path to your actual CV file
-    
-    // Create a temporary link element
-    const link = document.createElement('a');
-    link.href = cvUrl;
     link.download = 'Julian_Bartosz_CV.pdf';
     
     // Animate the download button
@@ -703,25 +668,18 @@ window.addEventListener('load', () => {
     });
 });
 
-// Parallax effect for profile image
-function initializeParallax() {
-    const profileImage = document.querySelector('.profile-image');
-    if (!profileImage) return;
-    
-    window.addEventListener('scroll', () => {
-        const scrolled = window.pageYOffset;
-        const parallax = scrolled * 0.1;
-        profileImage.style.transform = `translateY(${parallax}px)`;
-    });
-}
-
 // Initialize parallax effect
 initializeParallax();
 
 // Add hover effects for interactive elements
 document.querySelectorAll('.social-link, .nav-item, .btn, .tag').forEach(element => {
     element.addEventListener('mouseenter', function() {
-        this.style.transform = 'translateY(-2px)';
+        // Do not apply transform to excluded elements
+        if (!element.classList.contains('social-link') && 
+            !element.classList.contains('nav-item') && 
+            !element.classList.contains('btn-secondary')) {
+            this.style.transform = 'translateY(-2px)';
+        }
     });
     
     element.addEventListener('mouseleave', function() {
@@ -754,16 +712,6 @@ document.querySelectorAll('.nav-item, .social-link, .btn').forEach(element => {
         this.style.outlineOffset = '';
     });
 });
-
-// Add this new function to ensure sidebar visibility
-function ensureSidebarVisibility() {
-    const sidebarElements = document.querySelectorAll('.sidebar .profile-image, .sidebar .profile-name, .sidebar .profile-title, .sidebar .status, .sidebar .social-link, .sidebar .nav-item');
-    
-    sidebarElements.forEach(element => {
-        element.style.opacity = '1';
-        element.style.visibility = 'visible';
-    });
-}
 
 // Replace your updateActiveNavItem function with this enhanced version:
 
@@ -811,7 +759,7 @@ function initializeStatusButton() {
     if (!statusButton) return;
     
     statusButton.addEventListener('mouseenter', function() {
-        // Add GSAP animation for smoother effect
+        // Only animate the text elements - dot animation handled by CSS
         gsap.timeline()
             .to('.default-text', {
                 opacity: 0,
@@ -824,13 +772,7 @@ function initializeStatusButton() {
                 y: 0,
                 duration: 0.2,
                 ease: 'power2.out'
-            }, 0.1)
-            .to('.status-dot', {
-                backgroundColor: '#ff6928',
-                scale: 1.1,
-                duration: 0.3,
-                ease: 'back.out(1.7)'
-            }, 0);
+            }, 0.1);
     });
     
     statusButton.addEventListener('mouseleave', function() {
@@ -846,16 +788,10 @@ function initializeStatusButton() {
                 y: 0,
                 duration: 0.2,
                 ease: 'power2.out'
-            }, 0.1)
-            .to('.status-dot', {
-                backgroundColor: '#c2e73d',
-                scale: 1,
-                duration: 0.3,
-                ease: 'back.out(1.7)'
-            }, 0);
+            }, 0.1);
     });
     
-    // Smooth scroll to contact section on click
+    // Keep the click handler for smooth scrolling to contact section
     statusButton.addEventListener('click', function(e) {
         e.preventDefault();
         const contactSection = document.getElementById('contact');
@@ -865,5 +801,226 @@ function initializeStatusButton() {
                 block: 'start'
             });
         }
+    });
+}
+
+// Replace the enhanceSidebarAnimations function with this updated version:
+
+function enhanceSidebarAnimations() {
+    // First: Register ScrollTrigger plugin
+    gsap.registerPlugin(ScrollTrigger);
+    
+    // Set up non-sidebar elements for scroll animations
+    gsap.set('.section', { opacity: 0, y: 50 });
+    gsap.set('.project-card', { opacity: 0, y: 30, scale: 0.95 });
+    gsap.set('.experience-card', { opacity: 0, x: -30 });
+    gsap.set('.tech-item', { opacity: 0, y: 20, scale: 0.9 });
+    gsap.set('.tag', { opacity: 0, scale: 0.8 });
+    gsap.set('.testimonial-card', { opacity: 0, y: 40 });
+    gsap.set('.publication-item', { opacity: 0, x: 20 });
+    
+    // Force all sidebar elements to be invisible initially
+    gsap.set([
+        '.profile-name', '.profile-title', '.profile-location', 
+        '.status-button', '.btn-secondary', '.download-cv-btn', 
+        '.social-link', '.floating-nav-container', 
+        '.nav-item', '.home-button'
+    ], { autoAlpha: 0 });
+    
+    // Clean fresh timeline
+    const tl = gsap.timeline({ delay: 0.3 });
+    
+    // Debug log
+    console.log("Starting sidebar animations");
+    
+    // 1. Profile image animation
+    tl.fromTo('.profile-image', 
+        { scale: 0.9, autoAlpha: 0 },
+        { scale: 1, autoAlpha: 1, duration: 0.6, ease: 'back.out(1.4)' }
+    );
+    
+    // 2. Profile name
+    tl.fromTo('.profile-name', 
+        { x: 50, autoAlpha: 0 },
+        { x: 0, autoAlpha: 1, duration: 0.8, ease: 'power2.out' },
+        '-=0.6'
+    );
+    
+    // 3. Profile title and location
+    tl.fromTo('.profile-title', 
+        { x: 30, autoAlpha: 0 },
+        { x: 0, autoAlpha: 1, duration: 0.8, ease: 'power2.out' },
+        '-=0.6'
+    );
+    
+    tl.fromTo('.profile-location', 
+        { x: 30, autoAlpha: 0 },
+        { x: 0, autoAlpha: 1, duration: 0.8, ease: 'power2.out' },
+        '-=0.6'
+    );
+    
+    // 4. Status button
+    tl.fromTo('.status-button', 
+        { x: 70, autoAlpha: 0 },
+        { x: 0, autoAlpha: 1, duration: 0.3, ease: 'power2.out' },
+        '-=1'
+    );
+    
+    // 5. Download CV button - try both selector variations
+    tl.fromTo('.btn-secondary', 
+        { x: 70, autoAlpha: 0 },
+        { x: 0, autoAlpha: 1, duration: 0.3, ease: 'power2.out' },
+        '-=0.9'
+    );
+    
+    // 6. Social links
+    tl.fromTo('.social-link', 
+        { x: 70, autoAlpha: 0 },
+        { x: 0, autoAlpha: 1, duration: 0.3, stagger: 0.05, ease: 'power2.out' },
+        '-=0.9'
+    );
+    
+    // 7. NAVBAR
+    tl.fromTo('.floating-nav-container', 
+        { scale: 0.95, autoAlpha: 0 },
+        { scale: 1, autoAlpha: 1, duration: 0.6, ease: 'power2.out' },
+        '-=0.6'
+    );
+    
+    // 8. Nav items
+    tl.fromTo('.nav-item', 
+        { autoAlpha: 0 },
+        { autoAlpha: 1, duration: 0.3, stagger: 0.04, ease: 'power1.out' },
+        '-=0.6'
+    );
+    
+    // 9. Home button
+    tl.fromTo('.home-button', 
+        { scale: 0, autoAlpha: 0 },
+        { scale: 1, autoAlpha: 1, duration: 0.3, ease: 'back.out(1.7)' },
+        '-=0.1'
+    );
+    
+    // Initialize other scroll animations
+    initializeScrollAnimations();
+    
+    // Log completion for debugging
+    tl.eventCallback("onComplete", function() {
+        console.log("Sidebar animation completed");
+    });
+}
+
+// Add this function to disable scroll animations for profile image
+
+function preventProfileImageScrollEffect() {
+    // Remove any ScrollTrigger instances that might affect the profile image
+    if (ScrollTrigger) {
+        ScrollTrigger.getAll().forEach(trigger => {
+            if (trigger.vars.targets && 
+                (trigger.vars.targets.includes('.profile-image') || 
+                 trigger.vars.targets === '.profile-image')) {
+                trigger.kill();
+            }
+        });
+    }
+    
+    // Add scroll event listener to ensure profile image stays fixed
+    window.addEventListener('scroll', function() {
+        // Force profile image to maintain its position
+        gsap.set('.profile-image', { clearProps: 'all' });
+    });
+}
+
+// Add this function to create a smooth status dot animation with GSAP using DOM elements
+
+function initializeStatusDotAnimationAlternative() {
+    const statusDots = document.querySelectorAll('.status-dot');
+    
+    if (!statusDots.length) {
+        console.log("No status dots found");
+        return;
+    }
+    
+    console.log("Initializing status dot animation with DOM elements");
+    
+    statusDots.forEach(dot => {
+        // Remove any existing pulse elements to prevent duplicates
+        const existingPulse = dot.querySelector('.status-dot-pulse');
+        if (existingPulse) {
+            existingPulse.remove();
+        }
+        
+        // Create a DOM element for the pulse animation
+        const pulseElement = document.createElement('div');
+        pulseElement.className = 'status-dot-pulse';
+        pulseElement.style.cssText = `
+            position: absolute;
+            top: -3px;
+            left: -3px;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background-color:rgb(177, 221, 44);
+            z-index: 1;
+            pointer-events: none;
+            transform-origin: center center;
+        `;
+        
+        // Add the pulse element to the dot
+        dot.style.position = 'relative'; // Ensure parent has positioning context
+        dot.appendChild(pulseElement);
+        
+        // Create the energy pulse animation timeline
+        const timeline = gsap.timeline({
+            repeat: -1,
+            defaults: { ease: "power2.inOut" }
+        });
+        
+        // Energy pulse effect as described - starts big, contracts, pauses, expands outward
+        timeline
+            // Start from nothing (DO NOT TOUCH)
+            .fromTo(pulseElement, 
+                { scale: 1.0, opacity: 0.5, },
+                { scale: 0.6, opacity: 0.7, duration: 0.5, ease: "power2.in" }
+            )
+            // Immediately expand outward and fade
+            .to(pulseElement, 
+                { scale: 1.4, opacity: 0, duration: 1.3, ease: "power2.out" }
+            );
+        // Store references to allow manipulation on hover
+        dot.pulseElement = pulseElement;
+        dot.pulseTimeline = timeline;
+    });
+    
+    // Add hover effects for status button
+    const statusButtons = document.querySelectorAll('.status-button');
+    statusButtons.forEach(button => {
+        button.addEventListener('mouseenter', function() {
+            const dot = this.querySelector('.status-dot');
+            if (!dot || !dot.pulseElement || !dot.pulseTimeline) return;
+            
+            // Change to orange on hover
+            gsap.to(dot.pulseElement, {
+                backgroundColor: 'rgba(255, 105, 40, 0.65)',
+                duration: 0.3
+            });
+            
+            // Speed up the animation on hover
+            dot.pulseTimeline.timeScale(1.3);
+        });
+        
+        button.addEventListener('mouseleave', function() {
+            const dot = this.querySelector('.status-dot');
+            if (!dot || !dot.pulseElement || !dot.pulseTimeline) return;
+            
+            // Change back to green
+            gsap.to(dot.pulseElement, {
+                backgroundColor: 'rgba(194, 231, 61, 0.65)',
+                duration: 0.3
+            });
+            
+            // Return to normal speed
+            dot.pulseTimeline.timeScale(1);
+        });
     });
 }
