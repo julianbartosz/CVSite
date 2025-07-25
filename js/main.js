@@ -1,5 +1,4 @@
 // JavaScript extracted from index1.html
-
 // Google Analytics
 window.dataLayer = window.dataLayer || [];
 function gtag() {
@@ -56,42 +55,335 @@ document.addEventListener('DOMContentLoaded', function() {
     // Set up scroll listener
     window.addEventListener('scroll', updateActiveNavItem);
     
-    // Important: DO NOT call ensureSidebarVisibility() as it overrides animations
-    
     // Add profile image fix
     preventProfileImageScrollEffect();
     
-    // Fix: Remove initializeGSAP() from here and ONLY use enhanceSidebarAnimations
+    // Mobile-first initialization
+    initializeMobileMenu();
+    
+    // Add dynamic mobile profile spacing
+    adjustMobileProfileSpacing();
+    
     setTimeout(() => {
-        enhanceSidebarAnimations(); // This should handle ALL sidebar animations
+        enhanceSidebarAnimations();
         initializeScrollEffects();
-        initializeMobileMenu();
         initializeStatusButton();
-        
-        // Call the new animation function and remove the old one
         initializeStatusDotAnimationAlternative();
-        // Do NOT call initializeStatusDotAnimation(); - it doesn't work reliably
     }, 100);
-
-    // Use the alternative method which will actually work with DOM elements
-    initializeStatusDotAnimationAlternative();
+    
+    // Initialize mobile optimizations
+    initializeMobileOptimizations();
 });
 
-// Enhanced scroll animations with GSAP for Priority 1 implementation
+// Function to dynamically adjust mobile profile spacing
+function adjustMobileProfileSpacing() {
+    if (window.innerWidth <= 1023) {
+        const mobileProfileSection = document.querySelector('.mobile-profile-section');
+        const mainContent = document.querySelector('.main-content');
+        
+        if (mobileProfileSection && mainContent) {
+            // Wait for the DOM to be fully rendered
+            setTimeout(() => {
+                const profileHeight = mobileProfileSection.offsetHeight;
+                const padding = profileHeight + 20; // Add 20px buffer
+                
+                mainContent.style.paddingTop = `${padding}px`;
+                
+                // Store the calculated padding for resize events
+                window.mobileProfilePadding = padding;
+            }, 100);
+        }
+    }
+}
+
+// Enhanced Mobile Menu functionality with project-focused navigation
+function initializeMobileMenu() {
+    const sidebar = document.getElementById('sidebar');
+    const mobileMenu = document.querySelector('.mobile-menu');
+    const mobileOverlay = document.querySelector('.mobile-overlay');
+    const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+    const mobileMenuItems = document.querySelectorAll('.mobile-menu-item');
+    
+    if (!mobileMenuBtn || !mobileMenu || !mobileOverlay) return;
+
+    // Enhanced screen size detection
+    function checkScreenSize() {
+        const isMobile = window.innerWidth <= 1023;
+        
+        if (isMobile) {
+            mobileMenuBtn.style.display = 'flex';
+            document.body.classList.add('mobile-layout');
+            // Recalculate mobile profile spacing on resize
+            adjustMobileProfileSpacing();
+        } else {
+            mobileMenuBtn.style.display = 'none';
+            mobileMenu.classList.remove('open');
+            mobileOverlay.classList.remove('active');
+            document.body.classList.remove('mobile-layout');
+            document.body.style.overflow = '';
+            mobileMenuBtn.innerHTML = '☰';
+            mobileMenuBtn.setAttribute('aria-label', 'Open mobile menu');
+            
+            // Reset main content padding on desktop
+            const mainContent = document.querySelector('.main-content');
+            if (mainContent) {
+                mainContent.style.paddingTop = '';
+            }
+        }
+    }
+
+    function openMobileMenu() {
+        mobileMenu.classList.add('open');
+        mobileOverlay.classList.add('active');
+        mobileMenuBtn.innerHTML = '✕';
+        mobileMenuBtn.setAttribute('aria-label', 'Close mobile menu');
+        document.body.style.overflow = 'hidden';
+        
+        // Focus first menu item for accessibility
+        const firstMenuItem = mobileMenu.querySelector('.mobile-menu-item');
+        if (firstMenuItem) {
+            setTimeout(() => firstMenuItem.focus(), 100);
+        }
+    }
+
+    function closeMobileMenu() {
+        mobileMenu.classList.remove('open');
+        mobileOverlay.classList.remove('active');
+        mobileMenuBtn.innerHTML = '☰';
+        mobileMenuBtn.setAttribute('aria-label', 'Open mobile menu');
+        document.body.style.overflow = '';
+        mobileMenuBtn.focus();
+    }
+
+    // Toggle mobile menu
+    mobileMenuBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        const isOpen = mobileMenu.classList.contains('open');
+        
+        if (isOpen) {
+            closeMobileMenu();
+        } else {
+            openMobileMenu();
+        }
+    });
+
+    // Close mobile menu when clicking menu items
+    mobileMenuItems.forEach(item => {
+        item.addEventListener('click', (e) => {
+            e.preventDefault();
+            const targetSection = item.getAttribute('href');
+            
+            // Close menu first
+            closeMobileMenu();
+            
+            // Then scroll to section after a brief delay
+            setTimeout(() => {
+                if (targetSection && targetSection.startsWith('#')) {
+                    const section = document.querySelector(targetSection);
+                    if (section) {
+                        const offset = 200; // Account for mobile profile section
+                        const targetPosition = section.offsetTop - offset;
+                        
+                        window.scrollTo({
+                            top: targetPosition,
+                            behavior: 'smooth'
+                        });
+                    }
+                }
+            }, 100);
+        });
+    });
+
+    // Close mobile menu when clicking overlay
+    mobileOverlay.addEventListener('click', closeMobileMenu);
+
+    // Enhanced keyboard navigation
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && mobileMenu.classList.contains('open')) {
+            closeMobileMenu();
+        }
+        
+        // Tab trapping in mobile menu
+        if (mobileMenu.classList.contains('open') && e.key === 'Tab') {
+            const focusableElements = mobileMenu.querySelectorAll(
+                'a, button, [tabindex]:not([tabindex="-1"])'
+            );
+            const firstElement = focusableElements[0];
+            const lastElement = focusableElements[focusableElements.length - 1];
+            
+            if (e.shiftKey && document.activeElement === firstElement) {
+                e.preventDefault();
+                lastElement.focus();
+            } else if (!e.shiftKey && document.activeElement === lastElement) {
+                e.preventDefault();
+                firstElement.focus();
+            }
+        }
+    });
+
+    // Debounced resize handler for better performance
+    let resizeTimeout;
+    window.addEventListener('resize', () => {
+        clearTimeout(resizeTimeout);
+        resizeTimeout = setTimeout(checkScreenSize, 150);
+    });
+    
+    checkScreenSize();
+
+    // Store references for cleanup
+    window.mobileMenuControls = {
+        openMobileMenu,
+        closeMobileMenu,
+        mobileMenuBtn,
+        mobileOverlay
+    };
+}
+
+// Mobile-specific optimizations
+function initializeMobileOptimizations() {
+    // Prevent zoom on input focus for iOS
+    const inputs = document.querySelectorAll('input, textarea, select');
+    inputs.forEach(input => {
+        input.addEventListener('focus', function() {
+            if (window.innerWidth <= 768) {
+                // Temporarily set font-size to 16px to prevent zoom
+                this.style.fontSize = '16px';
+            }
+        });
+        
+        input.addEventListener('blur', function() {
+            // Reset font-size
+            this.style.fontSize = '';
+        });
+    });
+    
+    // Optimize touch interactions
+    const touchElements = document.querySelectorAll('.mobile-menu-item, .status-button, .download-cv-btn, .social-link');
+    touchElements.forEach(element => {
+        element.addEventListener('touchstart', function() {
+            this.style.transform = 'scale(0.98)';
+        }, { passive: true });
+        
+        element.addEventListener('touchend', function() {
+            this.style.transform = '';
+        }, { passive: true });
+    });
+    
+    initializeSwipeGestures();
+}
+
+// Swipe gesture support for mobile menu
+function initializeSwipeGestures() {
+    let startX = 0;
+    let currentX = 0;
+    let isDragging = false;
+    
+    document.addEventListener('touchstart', (e) => {
+        startX = e.touches[0].clientX;
+        isDragging = true;
+    }, { passive: true });
+    
+    document.addEventListener('touchmove', (e) => {
+        if (!isDragging) return;
+        currentX = e.touches[0].clientX;
+    }, { passive: true });
+    
+    document.addEventListener('touchend', () => {
+        if (!isDragging) return;
+        isDragging = false;
+        
+        const diffX = currentX - startX;
+        const threshold = 100;
+        
+        if (window.innerWidth <= 1023) {
+            const sidebar = document.getElementById('sidebar');
+            const mobileControls = window.mobileMenuControls;
+            
+            if (diffX > threshold && startX < 50 && !sidebar.classList.contains('open')) {
+                mobileControls.openMobileMenu();
+            }
+            else if (diffX < -threshold && sidebar.classList.contains('open')) {
+                mobileControls.closeMobileMenu();
+            }
+        }
+        
+        startX = 0;
+        currentX = 0;
+    }, { passive: true });
+}
+
+// Enhanced navigation with mobile support and proper scrolling
+function initializeNavigation() {
+    const navItems = document.querySelectorAll('.nav-item');
+    
+    navItems.forEach(item => {
+        item.addEventListener('click', function(e) {
+            e.preventDefault();
+            const targetId = this.getAttribute('href').substring(1);
+            const targetSection = document.getElementById(targetId);
+            
+            if (targetSection) {
+                // Animate the clicked item
+                if (window.innerWidth <= 768) {
+                    gsap.timeline()
+                        .to(this, { scale: 0.95, duration: 0.05 })
+                        .to(this, { scale: 1, duration: 0.1 });
+                } else {
+                    gsap.timeline()
+                        .to(this, { scale: 0.95, duration: 0.1 })
+                        .to(this, { scale: 1, duration: 0.1 });
+                }
+                
+                // Calculate offset based on screen size
+                const offset = window.innerWidth <= 1023 ? 200 : 0; // Account for mobile profile
+                const targetPosition = targetSection.offsetTop - offset;
+                
+                window.scrollTo({
+                    top: targetPosition,
+                    behavior: 'smooth'
+                });
+                
+                // Update active state immediately
+                navItems.forEach(nav => nav.classList.remove('active'));
+                this.classList.add('active');
+            }
+        });
+    });
+
+    // Home button functionality
+    const homeButton = document.querySelector('.home-button');
+    if (homeButton) {
+        homeButton.addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            const duration = window.innerWidth <= 768 ? 0.15 : 0.2;
+            gsap.timeline()
+                .to(this, { scale: 0.9, duration: duration * 0.5 })
+                .to(this, { scale: 1, duration: duration, ease: 'back.out(1.7)' });
+            
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+            
+            navItems.forEach(nav => nav.classList.remove('active'));
+            if (navItems[0]) navItems[0].classList.add('active');
+        });
+    }
+}
+
+// Enhanced scroll animations with GSAP
 function initializeScrollAnimations() {
-    // Enhanced case study animations with staggered entrance
     gsap.utils.toArray('.case-study-item').forEach((item, index) => {
-        // Set initial state for better loading experience
         gsap.set(item, { opacity: 0, y: 60, scale: 0.95 });
         
-        // Main case study animation
         gsap.to(item, {
             opacity: 1,
             y: 0,
             scale: 1,
             duration: 0.8,
             ease: 'power2.out',
-            delay: index * 0.2, // Stagger animation
+            delay: index * 0.2,
             scrollTrigger: {
                 trigger: item,
                 start: 'top 85%',
@@ -99,26 +391,8 @@ function initializeScrollAnimations() {
                 toggleActions: 'play none none reverse'
             }
         });
-        
-        // Parallax effect for case study cards
-        const card = item.querySelector('.case-study-card');
-        const image = item.querySelector('.case-study-image');
-        
-        if (card && image) {
-            gsap.to(image, {
-                yPercent: -15,
-                ease: 'none',
-                scrollTrigger: {
-                    trigger: card,
-                    start: 'top bottom',
-                    end: 'bottom top',
-                    scrub: 1 // Smooth parallax scroll
-                }
-            });
-        }
     });
     
-    // Enhanced section animations with loading states
     gsap.utils.toArray('.section').forEach((section, index) => {
         gsap.set(section, { opacity: 0, y: 50 });
         
@@ -136,22 +410,7 @@ function initializeScrollAnimations() {
         });
     });
     
-    // Project cards with staggered animation
-    gsap.to('.project-card', {
-        opacity: 1,
-        y: 0,
-        scale: 1,
-        duration: 0.6,
-        stagger: 0.15,
-        ease: 'back.out(1.7)',
-        scrollTrigger: {
-            trigger: '.project-card',
-            start: 'top 85%',
-            toggleActions: 'play none none reverse'
-        }
-    });
-    
-    // Tech stack grid animation
+    // Additional animations for other elements...
     gsap.to('.tech-item', {
         opacity: 1,
         y: 0,
@@ -169,125 +428,18 @@ function initializeScrollAnimations() {
             toggleActions: 'play none none reverse'
         }
     });
-    
-    // Tags animation
-    gsap.to('.tag', {
-        opacity: 1,
-        scale: 1,
-        duration: 0.4,
-        stagger: 0.05,
-        ease: 'back.out(1.7)',
-        scrollTrigger: {
-            trigger: '.tags-container',
-            start: 'top 85%',
-            toggleActions: 'play none none reverse'
-        }
-    });
-    
-    // Experience cards slide in from left
-    gsap.to('.experience-card', {
-        opacity: 1,
-        x: 0,
-        duration: 0.7,
-        stagger: 0.2,
-        ease: 'power2.out',
-        scrollTrigger: {
-            trigger: '.experience-card',
-            start: 'top 85%',
-            toggleActions: 'play none none reverse'
-        }
-    });
-    
-    // Testimonial cards
-    gsap.to('.testimonial-card', {
-        opacity: 1,
-        y: 0,
-        duration: 0.8,
-        ease: 'power2.out',
-        scrollTrigger: {
-            trigger: '.testimonial-card',
-            start: 'top 85%',
-            toggleActions: 'play none none reverse'
-        }
-    });
-    
-    // Publication items slide in from right
-    gsap.to('.publication-item', {
-        opacity: 1,
-        x: 0,
-        duration: 0.6,
-        stagger: 0.1,
-        ease: 'power2.out',
-        scrollTrigger: {
-            trigger: '.publication-item',
-            start: 'top 85%',
-            toggleActions: 'play none none reverse'
-        }
-    });
-    
-    // Form animation
-    gsap.from('.form', {
-        opacity: 0,
-        y: 40,
-        duration: 0.8,
-        ease: 'power2.out',
-        scrollTrigger: {
-            trigger: '.form',
-            start: 'top 85%',
-            toggleActions: 'play none none reverse'
-        }
-    });
-    
-    // Contact info animation
-    gsap.from('.contact-info', {
-        opacity: 0,
-        y: 30,
-        duration: 0.6,
-        ease: 'power2.out',
-        scrollTrigger: {
-            trigger: '.contact-info',
-            start: 'top 85%',
-            toggleActions: 'play none none reverse'
-        }
-    });
 }
 
 // Enhanced hover animations with GSAP
 function initializeHoverAnimations() {
-    // Project card hover effects
-    document.querySelectorAll('.project-card').forEach(card => {
-        card.addEventListener('mouseenter', () => {
-            gsap.to(card, {
-                y: -8,
-                scale: 1.02,
-                duration: 0.3,
-                ease: 'power2.out'
-            });
-        });
-        
-        card.addEventListener('mouseleave', () => {
-            gsap.to(card, {
-                y: 0,
-                scale: 1,
-                duration: 0.3,
-                ease: 'power2.out'
-            });
-        });
-    });
-
-    // Replace the existing Tech item hover effects with this code
-    
-    // Tech item hover effects - color changes only, no movement
     document.querySelectorAll('.tech-item').forEach(item => {
         item.addEventListener('mouseenter', () => {
-            // No scale/movement change, just color changes
             gsap.to(item, {
                 borderColor: '#fd7338',
                 duration: 0.2,
                 ease: 'power2.out'
             });
             
-            // Change text color
             const techName = item.querySelector('.tech-name');
             if (techName) {
                 gsap.to(techName, {
@@ -305,7 +457,6 @@ function initializeHoverAnimations() {
                 ease: 'power2.out'
             });
             
-            // Reset text color
             const techName = item.querySelector('.tech-name');
             if (techName) {
                 gsap.to(techName, {
@@ -317,47 +468,11 @@ function initializeHoverAnimations() {
         });
     });
     
-    // Social link hover effects
-    document.querySelectorAll('.social-link').forEach(link => {
-        link.addEventListener('mouseenter', () => {
-            gsap.to(link, {
-                duration: 0.2,
-                ease: 'back.out(1.7)'
-            });
-        });
-        
-        link.addEventListener('mouseleave', () => {
-            gsap.to(link, {
-                duration: 0.2,
-                ease: 'power2.out'
-            });
-        });
-    });
-    
-    // Button hover effects
-    document.querySelectorAll('.btn:not(.btn-secondary)').forEach(btn => {
-        btn.addEventListener('mouseenter', () => {
-            gsap.to(btn, {
-                duration: 0.2,
-                ease: 'power2.out'
-            });
-        });
-        
-        btn.addEventListener('mouseleave', () => {
-            gsap.to(btn, {
-                duration: 0.2,
-                ease: 'power2.out'
-            });
-        });
-    });
-    
-    // Tag hover effects - border only, no movement
     document.querySelectorAll('.tag').forEach(tag => {
         tag.addEventListener('mouseenter', () => {
-            // No scale change, just color changes
             gsap.to(tag, {
                 borderColor: '#fd7338',
-                color: '#fd7338', // Add text color change
+                color: '#fd7338',
                 duration: 0,
                 ease: 'power2.out'
             });
@@ -366,7 +481,7 @@ function initializeHoverAnimations() {
         tag.addEventListener('mouseleave', () => {
             gsap.to(tag, {
                 borderColor: 'var(--color-light-grey)',
-                color: 'grey', // Return to original text color
+                color: 'grey',
                 duration: 0,
                 ease: 'power2.out'
             });
@@ -374,74 +489,15 @@ function initializeHoverAnimations() {
     });
 }
 
-// Enhanced click handling with animation
-function initializeNavigation() {
-    const navItems = document.querySelectorAll('.nav-item');
-    
-    navItems.forEach(item => {
-        item.addEventListener('click', function(e) {
-            e.preventDefault();
-            const targetId = this.getAttribute('href').substring(1);
-            const targetSection = document.getElementById(targetId);
-            
-            if (targetSection) {
-                // Animate the clicked item
-                gsap.timeline()
-                    .to(this, { scale: 0.95, duration: 0.1 })
-                    .to(this, { scale: 1, duration: 0.1 });
-                
-                // Smooth scroll to section
-                targetSection.scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'start'
-                });
-                
-                // Update active state immediately
-                navItems.forEach(nav => nav.classList.remove('active'));
-                this.classList.add('active');
-            }
-        });
-    });
-    
-    // Home button functionality
-    const homeButton = document.querySelector('.home-button');
-    if (homeButton) {
-        homeButton.addEventListener('click', function(e) {
-            e.preventDefault();
-            
-            // Animate home button
-            gsap.timeline()
-                .to(this, { scale: 0.9, duration: 0.1 })
-                .to(this, { scale: 1, duration: 0.2, ease: 'back.out(1.7)' });
-            
-            // Scroll to top
-            window.scrollTo({
-                top: 0,
-                behavior: 'smooth'
-            });
-            
-            // Set first nav item as active
-            navItems.forEach(nav => nav.classList.remove('active'));
-            if (navItems[0]) navItems[0].classList.add('active');
-        });
-    }
-}
-
-// Scroll effects and animations
 function initializeScrollEffects() {
-    // Initialize hover animations
     initializeHoverAnimations();
     
-    // Navbar active state animation
     const navItems = document.querySelectorAll('.nav-item');
     navItems.forEach(item => {
         item.addEventListener('click', function() {
-            // Remove active class from all items
             navItems.forEach(nav => nav.classList.remove('active'));
-            // Add active class to clicked item
             this.classList.add('active');
             
-            // Animate the active state
             gsap.from(this, {
                 scale: 0.95,
                 duration: 0.2,
@@ -451,91 +507,39 @@ function initializeScrollEffects() {
     });
 }
 
-// Mobile menu functionality
-function initializeMobileMenu() {
-    const sidebar = document.getElementById('sidebar');
-    const navItems = document.querySelectorAll('.nav-item');
-    
-    // Create mobile menu button
-    const mobileMenuBtn = document.createElement('button');
-    mobileMenuBtn.innerHTML = '☰';
-    mobileMenuBtn.className = 'mobile-menu-btn';
-    mobileMenuBtn.style.cssText = `
-        position: fixed;
-        top: 1rem;
-        left: 1rem;
-        z-index: 200;
-        background: var(--color-background);
-        border: 1px solid var(--color-border);
-        border-radius: var(--radius-sm);
-        padding: 0.75rem;
-        font-size: 1.25rem;
-        cursor: pointer;
-        display: none;
-        transition: all var(--transition-normal);
-    `;
-    
-    document.body.appendChild(mobileMenuBtn);
-    
-    // Show mobile menu button on small screens
-    function checkScreenSize() {
-        if (window.innerWidth <= 1023) {
-            mobileMenuBtn.style.display = 'block';
-        } else {
-            mobileMenuBtn.style.display = 'none';
-            sidebar.classList.remove('open');
-        }
-    }
-    
-    window.addEventListener('resize', checkScreenSize);
-    checkScreenSize();
-    
-    // Toggle mobile menu
-    mobileMenuBtn.addEventListener('click', () => {
-        sidebar.classList.toggle('open');
-        mobileMenuBtn.innerHTML = sidebar.classList.contains('open') ? '✕' : '☰';
-    });
-    
-    // Close mobile menu when clicking nav items
-    navItems.forEach(item => {
-        item.addEventListener('click', () => {
-            if (window.innerWidth <= 1023) {
-                sidebar.classList.remove('open');
-                mobileMenuBtn.innerHTML = '☰';
-            }
-        });
-    });
-    
-    // Close mobile menu when clicking outside
+// Enhanced CV download with mobile optimization
+function downloadCV() {
+    const link = document.createElement('a');
+    link.href = 'cv/Julian_Bartosz_CV.pdf';
     link.download = 'Julian_Bartosz_CV.pdf';
     
-    // Animate the download button
-    const button = document.querySelector('.download-cv-btn');
+    const button = document.querySelector('.download-cv-btn') || document.querySelector('.mobile-menu-btn-primary');
     if (button) {
+        const isMobile = window.innerWidth <= 768;
+        const duration = isMobile ? 0.15 : 0.2;
+        
         gsap.timeline()
             .to(button, {
                 scale: 0.95,
-                duration: 0.1,
+                duration: duration * 0.5,
                 ease: 'power2.out'
             })
             .to(button, {
                 scale: 1.02,
-                duration: 0.2,
+                duration: duration,
                 ease: 'back.out(1.7)'
             })
             .to(button, {
                 scale: 1,
-                duration: 0.1,
+                duration: duration * 0.5,
                 ease: 'power2.out'
             });
     }
     
-    // Trigger download
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
     
-    // Optional: Track download event (for analytics)
     if (typeof gtag !== 'undefined') {
         gtag('event', 'download', {
             event_category: 'CV',
@@ -544,25 +548,37 @@ function initializeMobileMenu() {
     }
 }
 
-// Copy email functionality with enhanced animation
+// Enhanced copy email functionality
 function copyEmail() {
     const email = 'bartoszjul@gmail.com';
-    navigator.clipboard.writeText(email).then(() => {
+    
+    if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(email).then(() => {
+            showCopyFeedback();
+        }).catch(() => {
+            fallbackCopyEmail(email);
+        });
+    } else {
+        fallbackCopyEmail(email);
+    }
+    
+    function showCopyFeedback() {
         const button = document.querySelector('.copy-button');
         const originalText = button.textContent;
+        const isMobile = window.innerWidth <= 768;
+        const duration = isMobile ? 0.15 : 0.2;
         
-        // Animate button feedback
         gsap.timeline()
             .to(button, {
                 scale: 0.95,
-                duration: 0.1,
+                duration: duration * 0.5,
                 ease: 'power2.out'
             })
             .to(button, {
                 scale: 1.05,
                 backgroundColor: 'var(--color-primary)',
                 color: 'white',
-                duration: 0.2,
+                duration: duration,
                 ease: 'back.out(1.7)',
                 onComplete: () => {
                     button.textContent = 'Copied!';
@@ -570,7 +586,7 @@ function copyEmail() {
             })
             .to(button, {
                 scale: 1,
-                duration: 0.1,
+                duration: duration * 0.5,
                 ease: 'power2.out'
             });
         
@@ -585,30 +601,48 @@ function copyEmail() {
                 }
             });
         }, 2000);
-    }).catch(err => {
-        console.error('Failed to copy email: ', err);
-        alert(`Email: ${email}`);
-    });
+    }
+    
+    function fallbackCopyEmail(email) {
+        const textArea = document.createElement('textarea');
+        textArea.value = email;
+        textArea.style.position = 'fixed';
+        textArea.style.left = '-999999px';
+        textArea.style.top = '-999999px';
+        document.body.appendChild(textArea);
+        textArea.focus();
+        textArea.select();
+        
+        try {
+            document.execCommand('copy');
+            showCopyFeedback();
+        } catch (err) {
+            alert(`Email: ${email}`);
+        }
+        
+        document.body.removeChild(textArea);
+    }
 }
 
-// Form submission handler with enhanced animations
+// Enhanced form submission
 function handleSubmit(event) {
     event.preventDefault();
     
     const formData = new FormData(event.target);
     const submitBtn = event.target.querySelector('button[type="submit"]');
     const originalText = submitBtn.textContent;
+    const isMobile = window.innerWidth <= 768;
+    const duration = isMobile ? 0.15 : 0.2;
     
-    // Animate button loading state
     gsap.timeline()
         .to(submitBtn, {
             scale: 0.98,
-            duration: 0.1,
+            duration: duration * 0.5,
             ease: 'power2.out'
         })
         .to(submitBtn, {
             scale: 1,
-            duration: 0.1,
+            duration: duration * 0.5,
             ease: 'power2.out',
             onComplete: () => {
                 submitBtn.textContent = 'Sending...';
@@ -616,7 +650,6 @@ function handleSubmit(event) {
             }
         });
     
-    // Simulate API call
     setTimeout(() => {
         gsap.to(submitBtn, {
             backgroundColor: '#22c55e',
@@ -629,7 +662,6 @@ function handleSubmit(event) {
             }
         });
         
-        // Reset button after delay
         setTimeout(() => {
             gsap.to(submitBtn, {
                 backgroundColor: '',
@@ -645,84 +677,15 @@ function handleSubmit(event) {
     }, 1000);
 }
 
-// Smooth scrolling for anchor links
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function (e) {
-        e.preventDefault();
-        const target = document.querySelector(this.getAttribute('href'));
-        if (target) {
-            target.scrollIntoView({
-                behavior: 'smooth',
-                block: 'start'
-            });
-        }
-    });
-});
-
-// Enhanced loading animation
-window.addEventListener('load', () => {
-    gsap.from('body', {
-        opacity: 0,
-        duration: 0.5,
-        ease: 'power2.out'
-    });
-});
-
-// Initialize parallax effect
-initializeParallax();
-
-// Add hover effects for interactive elements
-document.querySelectorAll('.social-link, .nav-item, .btn, .tag').forEach(element => {
-    element.addEventListener('mouseenter', function() {
-        // Do not apply transform to excluded elements
-        if (!element.classList.contains('social-link') && 
-            !element.classList.contains('nav-item') && 
-            !element.classList.contains('btn-secondary')) {
-            this.style.transform = 'translateY(-2px)';
-        }
-    });
-    
-    element.addEventListener('mouseleave', function() {
-        this.style.transform = '';
-    });
-});
-
-// Keyboard navigation
-document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') {
-        const sidebar = document.getElementById('sidebar');
-        const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
-        
-        if (sidebar.classList.contains('open')) {
-            sidebar.classList.remove('open');
-            if (mobileMenuBtn) mobileMenuBtn.innerHTML = '☰';
-        }
-    }
-});
-
-// Add focus management for accessibility
-document.querySelectorAll('.nav-item, .social-link, .btn').forEach(element => {
-    element.addEventListener('focus', function() {
-        this.style.outline = '2px solid var(--color-primary)';
-        this.style.outlineOffset = '2px';
-    });
-    
-    element.addEventListener('blur', function() {
-        this.style.outline = '';
-        this.style.outlineOffset = '';
-    });
-});
-
-// Replace your updateActiveNavItem function with this enhanced version:
-
+// Enhanced updateActiveNavItem function with mobile support
 function updateActiveNavItem() {
     const sections = document.querySelectorAll('.section');
     const navItems = document.querySelectorAll('.nav-item');
     
     let currentSection = '';
-    const scrollPos = window.scrollY + 200;
+    const offset = window.innerWidth <= 1023 ? 220 : 200; // Account for mobile profile
+    const scrollPos = window.scrollY + offset;
     
-    // Find the current section
     sections.forEach(section => {
         const sectionTop = section.offsetTop;
         const sectionHeight = section.offsetHeight;
@@ -732,26 +695,22 @@ function updateActiveNavItem() {
         }
     });
     
-    // Update active states
     navItems.forEach(item => {
         item.classList.remove('active');
         const href = item.getAttribute('href');
         if (href === `#${currentSection}`) {
             item.classList.add('active');
             
-            // Add a subtle animation when becoming active
-            gsap.fromTo(item, 
-                { scale: 0.95 },
-                { scale: 1, duration: 0.2, ease: 'back.out(1.7)' }
-            );
+            // Only animate on desktop
+            if (window.innerWidth > 1023) {
+                gsap.fromTo(item, 
+                    { scale: 0.95 },
+                    { scale: 1, duration: 0.2, ease: 'back.out(1.7)' }
+                );
+            }
         }
     });
 }
-
-// Add scroll listener
-window.addEventListener('scroll', updateActiveNavItem);
-
-// Add this function to enhance the status button animation:
 
 function initializeStatusButton() {
     const statusButton = document.querySelector('.status-button');
@@ -759,7 +718,6 @@ function initializeStatusButton() {
     if (!statusButton) return;
     
     statusButton.addEventListener('mouseenter', function() {
-        // Only animate the text elements - dot animation handled by CSS
         gsap.timeline()
             .to('.default-text', {
                 opacity: 0,
@@ -791,35 +749,35 @@ function initializeStatusButton() {
             }, 0.1);
     });
     
-    // Keep the click handler for smooth scrolling to contact section
     statusButton.addEventListener('click', function(e) {
         e.preventDefault();
         const contactSection = document.getElementById('contact');
         if (contactSection) {
-            contactSection.scrollIntoView({
-                behavior: 'smooth',
-                block: 'start'
+            const offset = window.innerWidth <= 768 ? 80 : 0;
+            const targetPosition = contactSection.offsetTop - offset;
+            
+            window.scrollTo({
+                top: targetPosition,
+                behavior: 'smooth'
             });
         }
     });
 }
 
-// Replace the enhanceSidebarAnimations function with this updated version:
-
 function enhanceSidebarAnimations() {
-    // First: Register ScrollTrigger plugin
     gsap.registerPlugin(ScrollTrigger);
     
-    // Set up non-sidebar elements for scroll animations
     gsap.set('.section', { opacity: 0, y: 50 });
-    gsap.set('.project-card', { opacity: 0, y: 30, scale: 0.95 });
-    gsap.set('.experience-card', { opacity: 0, x: -30 });
     gsap.set('.tech-item', { opacity: 0, y: 20, scale: 0.9 });
-    gsap.set('.tag', { opacity: 0, scale: 0.8 });
-    gsap.set('.testimonial-card', { opacity: 0, y: 40 });
-    gsap.set('.publication-item', { opacity: 0, x: 20 });
     
-    // Force all sidebar elements to be invisible initially
+    // Fix: Don't hide tags on mobile - only hide them on desktop
+    if (window.innerWidth > 1023) {
+        gsap.set('.tag', { opacity: 0, scale: 0.8 });
+    } else {
+        // Ensure tags are visible on mobile
+        gsap.set('.tag', { opacity: 1, scale: 1 });
+    }
+    
     gsap.set([
         '.profile-name', '.profile-title', '.profile-location', 
         '.status-button', '.btn-secondary', '.download-cv-btn', 
@@ -827,93 +785,119 @@ function enhanceSidebarAnimations() {
         '.nav-item', '.home-button'
     ], { autoAlpha: 0 });
     
-    // Clean fresh timeline
     const tl = gsap.timeline({ delay: 0.3 });
     
-    // Debug log
-    console.log("Starting sidebar animations");
-    
-    // 1. Profile image animation
     tl.fromTo('.profile-image', 
         { scale: 0.9, autoAlpha: 0 },
         { scale: 1, autoAlpha: 1, duration: 0.6, ease: 'back.out(1.4)' }
-    );
-    
-    // 2. Profile name
-    tl.fromTo('.profile-name', 
-        { x: 50, autoAlpha: 0 },
+    )
+    .fromTo('.profile-name', 
+        { x: 30, autoAlpha: 0 },
         { x: 0, autoAlpha: 1, duration: 0.8, ease: 'power2.out' },
-        '-=0.6'
-    );
-    
-    // 3. Profile title and location
-    tl.fromTo('.profile-title', 
+        '-=0.4'
+    )
+    .fromTo('.profile-title', 
         { x: 30, autoAlpha: 0 },
         { x: 0, autoAlpha: 1, duration: 0.8, ease: 'power2.out' },
         '-=0.6'
-    );
-    
-    tl.fromTo('.profile-location', 
+    )
+    .fromTo('.profile-location', 
         { x: 30, autoAlpha: 0 },
         { x: 0, autoAlpha: 1, duration: 0.8, ease: 'power2.out' },
         '-=0.6'
-    );
-    
-    // 4. Status button
-    tl.fromTo('.status-button', 
+    )
+    .fromTo('.status-button', 
         { x: 70, autoAlpha: 0 },
         { x: 0, autoAlpha: 1, duration: 0.3, ease: 'power2.out' },
         '-=1'
-    );
-    
-    // 5. Download CV button - try both selector variations
-    tl.fromTo('.btn-secondary', 
+    )
+    .fromTo('.btn-secondary', 
         { x: 70, autoAlpha: 0 },
         { x: 0, autoAlpha: 1, duration: 0.3, ease: 'power2.out' },
         '-=0.9'
-    );
-    
-    // 6. Social links
-    tl.fromTo('.social-link', 
+    )
+    .fromTo('.social-link', 
         { x: 70, autoAlpha: 0 },
         { x: 0, autoAlpha: 1, duration: 0.3, stagger: 0.05, ease: 'power2.out' },
         '-=0.9'
-    );
-    
-    // 7. NAVBAR
-    tl.fromTo('.floating-nav-container', 
+    )
+    .fromTo('.floating-nav-container', 
         { scale: 0.95, autoAlpha: 0 },
         { scale: 1, autoAlpha: 1, duration: 0.6, ease: 'power2.out' },
         '-=0.6'
-    );
-    
-    // 8. Nav items
-    tl.fromTo('.nav-item', 
+    )
+    .fromTo('.nav-item', 
         { autoAlpha: 0 },
-        { autoAlpha: 1, duration: 0.3, stagger: 0.04, ease: 'power1.out' },
-        '-=0.6'
+        { autoAlpha: 1, duration: 0.3, stagger: 0.1, ease: 'power2.out' },
+        '-=0.3'
+    )
+    .fromTo('.home-button', 
+        { scale: 0.8, autoAlpha: 0 },
+        { scale: 1, autoAlpha: 1, duration: 0.4, ease: 'back.out(1.7)' },
+        '-=0.2'
     );
-    
-    // 9. Home button
-    tl.fromTo('.home-button', 
-        { scale: 0, autoAlpha: 0 },
-        { scale: 1, autoAlpha: 1, duration: 0.3, ease: 'back.out(1.7)' },
-        '-=0.1'
-    );
-    
-    // Initialize other scroll animations
-    initializeScrollAnimations();
-    
-    // Log completion for debugging
-    tl.eventCallback("onComplete", function() {
-        console.log("Sidebar animation completed");
+
+    // Animate content sections on scroll
+    gsap.utils.toArray('.section').forEach(section => {
+        gsap.fromTo(section, 
+            { opacity: 0, y: 50 },
+            {
+                opacity: 1, 
+                y: 0,
+                duration: 0.8,
+                ease: 'power2.out',
+                scrollTrigger: {
+                    trigger: section,
+                    start: 'top 80%',
+                    toggleActions: 'play none none reverse'
+                }
+            }
+        );
+    });
+
+    // Animate tags on desktop only
+    if (window.innerWidth > 1023) {
+        gsap.utils.toArray('.tag').forEach((tag, index) => {
+            gsap.fromTo(tag,
+                { opacity: 0, scale: 0.8 },
+                {
+                    opacity: 1,
+                    scale: 1,
+                    duration: 0.3,
+                    delay: index * 0.02,
+                    ease: 'back.out(1.7)',
+                    scrollTrigger: {
+                        trigger: '.tags-container',
+                        start: 'top 80%',
+                        toggleActions: 'play none none reverse'
+                    }
+                }
+            );
+        });
+    }
+
+    // Animate tech items
+    gsap.utils.toArray('.tech-item').forEach((item, index) => {
+        gsap.fromTo(item,
+            { opacity: 0, y: 20, scale: 0.9 },
+            {
+                opacity: 1,
+                y: 0,
+                scale: 1,
+                duration: 0.4,
+                delay: index * 0.03,
+                ease: 'back.out(1.7)',
+                scrollTrigger: {
+                    trigger: item,
+                    start: 'top 85%',
+                    toggleActions: 'play none none reverse'
+                }
+            }
+        );
     });
 }
 
-// Add this function to disable scroll animations for profile image
-
 function preventProfileImageScrollEffect() {
-    // Remove any ScrollTrigger instances that might affect the profile image
     if (ScrollTrigger) {
         ScrollTrigger.getAll().forEach(trigger => {
             if (trigger.vars.targets && 
@@ -924,33 +908,22 @@ function preventProfileImageScrollEffect() {
         });
     }
     
-    // Add scroll event listener to ensure profile image stays fixed
     window.addEventListener('scroll', function() {
-        // Force profile image to maintain its position
         gsap.set('.profile-image', { clearProps: 'all' });
     });
 }
 
-// Add this function to create a smooth status dot animation with GSAP using DOM elements
-
 function initializeStatusDotAnimationAlternative() {
     const statusDots = document.querySelectorAll('.status-dot');
     
-    if (!statusDots.length) {
-        console.log("No status dots found");
-        return;
-    }
-    
-    console.log("Initializing status dot animation with DOM elements");
+    if (!statusDots.length) return;
     
     statusDots.forEach(dot => {
-        // Remove any existing pulse elements to prevent duplicates
         const existingPulse = dot.querySelector('.status-dot-pulse');
         if (existingPulse) {
             existingPulse.remove();
         }
         
-        // Create a DOM element for the pulse animation
         const pulseElement = document.createElement('div');
         pulseElement.className = 'status-dot-pulse';
         pulseElement.style.cssText = `
@@ -966,46 +939,38 @@ function initializeStatusDotAnimationAlternative() {
             transform-origin: center center;
         `;
         
-        // Add the pulse element to the dot
-        dot.style.position = 'relative'; // Ensure parent has positioning context
+        dot.style.position = 'relative';
         dot.appendChild(pulseElement);
         
-        // Create the energy pulse animation timeline
         const timeline = gsap.timeline({
             repeat: -1,
             defaults: { ease: "power2.inOut" }
         });
         
-        // Energy pulse effect as described - starts big, contracts, pauses, expands outward
         timeline
-            // Start from nothing (DO NOT TOUCH)
             .fromTo(pulseElement, 
                 { scale: 1.0, opacity: 0.5, },
                 { scale: 0.6, opacity: 0.7, duration: 0.5, ease: "power2.in" }
             )
-            // Immediately expand outward and fade
             .to(pulseElement, 
                 { scale: 1.4, opacity: 0, duration: 1.3, ease: "power2.out" }
             );
-        // Store references to allow manipulation on hover
+            
         dot.pulseElement = pulseElement;
         dot.pulseTimeline = timeline;
     });
     
-    // Add hover effects for status button
     const statusButtons = document.querySelectorAll('.status-button');
     statusButtons.forEach(button => {
         button.addEventListener('mouseenter', function() {
             const dot = this.querySelector('.status-dot');
             if (!dot || !dot.pulseElement || !dot.pulseTimeline) return;
             
-            // Change to orange on hover
             gsap.to(dot.pulseElement, {
                 backgroundColor: 'rgba(255, 105, 40, 0.65)',
                 duration: 0.3
             });
             
-            // Speed up the animation on hover
             dot.pulseTimeline.timeScale(1.3);
         });
         
@@ -1013,14 +978,51 @@ function initializeStatusDotAnimationAlternative() {
             const dot = this.querySelector('.status-dot');
             if (!dot || !dot.pulseElement || !dot.pulseTimeline) return;
             
-            // Change back to green
             gsap.to(dot.pulseElement, {
                 backgroundColor: 'rgba(194, 231, 61, 0.65)',
                 duration: 0.3
             });
             
-            // Return to normal speed
             dot.pulseTimeline.timeScale(1);
         });
     });
 }
+
+// Smooth scrolling for anchor links
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+            const offset = window.innerWidth <= 768 ? 80 : 0;
+            const targetPosition = target.offsetTop - offset;
+            
+            window.scrollTo({
+                top: targetPosition,
+                behavior: 'smooth'
+            });
+        }
+    });
+});
+
+// Enhanced loading animation
+window.addEventListener('load', () => {
+    gsap.from('body', {
+        opacity: 0,
+        duration: 0.5,
+        ease: 'power2.out'
+    });
+});
+
+// Add focus management for accessibility
+document.querySelectorAll('.nav-item, .social-link, .btn').forEach(element => {
+    element.addEventListener('focus', function() {
+        this.style.outline = '2px solid var(--color-primary)';
+        this.style.outlineOffset = '2px';
+    });
+    
+    element.addEventListener('blur', function() {
+        this.style.outline = '';
+        this.style.outlineOffset = '';
+    });
+});

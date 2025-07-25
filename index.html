@@ -37,8 +37,106 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
 </head>
 <body>
+    <!-- Mobile Profile Section (Centered at top) -->
+    <div class="mobile-profile-section">
+        <div class="mobile-profile-content">
+            <div class="mobile-profile-image">
+                <img src="images/DSC09920.png" alt="Julian Bartosz">
+            </div>
+            <h1 class="mobile-profile-name">Julian</h1>
+            <div class="mobile-profile-info">
+                <div class="mobile-profile-title">Software Engineer</div>
+                <div class="mobile-profile-location">Chicago, USA</div>
+            </div>
+            <div class="mobile-profile-buttons">
+                <a href="#contact" class="status-button">
+                    <div class="status-content">
+                        <div class="status-dot"></div>
+                        <span class="status-text default-text">Available for work</span>
+                        <span class="status-text hover-text">Contact me</span>
+                    </div>
+                </a>
+                <a href="#" class="btn btn-secondary download-cv-btn" onclick="downloadCV()">
+                    <span>Download CV</span>
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+                        <path d="M8 0C8.276 0 8.5 0.224 8.5 0.5V10.793L11.146 8.146C11.342 7.951 11.658 7.951 11.854 8.146C12.049 8.342 12.049 8.658 11.854 8.854L8.354 12.354C8.158 12.549 7.842 12.549 7.646 12.354L4.146 8.854C3.951 8.658 3.951 8.342 4.146 8.146C4.342 7.951 4.658 7.951 4.854 8.146L7.5 10.793V0.5C7.5 0.224 7.724 0 8 0ZM1 14.5C1 14.224 1.224 14 1.5 14H14.5C14.776 14 15 14.224 15 14.5C15 14.776 14.776 15 14.5 15H1.5C1.224 15 1 14.776 1 14.5Z"/>
+                    </svg>
+                </a>
+            </div>
+            <div class="mobile-social-links">
+                <a href="https://github.com/julianbartosz" class="social-link" title="GitHub" target="_blank" rel="noopener">
+                    <svg width="13.5" height="13.5" viewBox="0 0 13.5 13.5" fill="currentColor">
+                        <path d="M 6.75 0 C 10.478 0 13.5 3.098 13.5 6.921 C 13.5 9.978 11.568 12.571 8.888 13.487 C 8.546 13.555 8.424 13.339 8.424 13.155 C 8.424 12.927 8.432 12.182 8.432 11.256 C 8.432 10.61 8.216 10.189 7.974 9.974 C 9.477 9.803 11.056 9.218 11.056 6.56 C 11.056 5.804 10.795 5.187 10.361 4.702 C 10.431 4.527 10.663 3.823 10.295 2.87 C 10.295 2.87 9.729 2.684 8.441 3.58 C 7.89 3.426 7.322 3.348 6.75 3.347 C 6.179 3.348 5.611 3.426 5.06 3.58 C 3.771 2.684 3.204 2.87 3.204 2.87 C 2.837 3.823 3.069 4.527 3.138 4.702 C 2.707 5.187 2.443 5.804 2.443 6.56 C 2.443 9.211 4.019 9.805 5.518 9.98 C 5.325 10.153 5.15 10.458 5.09 10.905 C 4.705 11.082 3.727 11.388 3.125 10.33 C 3.125 10.33 2.768 9.665 2.09 9.617 C 2.09 9.617 1.432 9.608 2.045 10.037 C 2.045 10.037 2.487 10.25 2.794 11.05 C 2.794 11.05 3.19 12.285 5.068 11.866 C 5.071 12.445 5.077 12.99 5.077 13.155 C 5.077 13.338 4.953 13.552 4.616 13.488 C 1.934 12.573 0 9.979 0 6.921 C 0 3.098 3.023 0 6.75 0"/>
+                    </svg>
+                </a>
+                <a href="https://linkedin.com/in/julianbartosz" class="social-link" title="LinkedIn" target="_blank" rel="noopener">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor">
+                        <path d="M 0 12 L 0 0 L 12 0 L 12 12 Z" fill="transparent"></path>
+                        <path d="M 0 3.75 L 2.683 3.75 L 2.683 12 L 0 12 Z M 9.993 3.847 C 9.964 3.838 9.938 3.828 9.907 3.82 C 9.871 3.812 9.835 3.805 9.799 3.799 C 9.64 3.766 9.479 3.75 9.317 3.75 C 7.753 3.75 6.76 4.888 6.433 5.327 L 6.433 3.75 L 3.75 3.75 L 3.75 12 L 6.433 12 L 6.433 7.5 C 6.433 7.5 8.462 4.675 9.317 6.75 L 9.317 12 L 12 12 L 12 6.433 C 11.999 5.84 11.801 5.265 11.438 4.797 C 11.075 4.329 10.567 3.995 9.993 3.847 Z"/>
+                        <path d="M 1.313 2.625 C 2.037 2.625 2.625 2.037 2.625 1.313 C 2.625 0.588 2.037 0 1.313 0 C 0.588 0 0 0.588 0 1.313 C 0 2.037 0.588 2.625 1.313 2.625 Z"/>
+                    </svg>
+                </a>
+                <a href="mailto:bartoszjul@gmail.com" class="social-link" title="Email">
+                    <svg width="14" height="14" viewBox="0 0 14 14" fill="currentColor">
+                        <path d="M 13.735 5.217 C 13.841 5.132 14 5.212 14 5.346 L 14 10.938 C 14 11.662 13.412 12.25 12.688 12.25 L 1.313 12.25 C 0.588 12.25 0 11.662 0 10.938 L 0 5.348 C 0 5.212 0.156 5.135 0.265 5.22 C 0.878 5.696 1.69 6.3 4.479 8.326 C 5.056 8.747 6.029 9.633 7 9.628 C 7.976 9.636 8.969 8.731 9.524 8.326 C 12.313 6.3 13.122 5.693 13.735 5.217 Z M 7 8.75 C 7.634 8.761 8.548 7.952 9.007 7.618 C 12.636 4.985 12.912 4.755 13.748 4.099 C 13.907 3.976 14 3.784 14 3.582 L 14 3.063 C 14 2.338 13.412 1.75 12.688 1.75 L 1.313 1.75 C 0.588 1.75 0 2.338 0 3.063 L 0 3.582 C 0 3.784 0.093 3.973 0.252 4.099 C 1.088 4.752 1.364 4.985 4.993 7.618 C 5.452 7.952 6.366 8.761 7 8.75 Z"/>
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mobile Menu Button -->
+    <button class="mobile-menu-btn" aria-label="Open mobile menu">☰</button>
+
+    <!-- Mobile Menu Overlay -->
+    <div class="mobile-overlay"></div>
+
+    <!-- Mobile Menu - Projects Focused -->
+    <div class="mobile-menu">
+        <div class="mobile-menu-content">
+            <div class="mobile-menu-section">
+                <h3 class="mobile-menu-title">Projects</h3>
+                
+                <a href="#case-studies" class="mobile-menu-item" data-project="phobia-warning">
+                    <div class="mobile-menu-item-content">
+                        <div class="mobile-menu-item-title">Phobia Warning</div>
+                        <div class="mobile-menu-item-desc">Movie platform for exploring phobia-related content</div>
+                    </div>
+                    <svg class="mobile-menu-arrow" viewBox="0 0 20 20" fill="currentColor">
+                        <path d="M7 17l10-10M7 7h10v10" stroke="currentColor" stroke-width="2" fill="none"/>
+                    </svg>
+                </a>
+
+                <a href="#case-studies" class="mobile-menu-item" data-project="artist-site">
+                    <div class="mobile-menu-item-content">
+                        <div class="mobile-menu-item-title">Artist Site</div>
+                        <div class="mobile-menu-item-desc">Next.js portfolio with blog and e-commerce</div>
+                    </div>
+                    <svg class="mobile-menu-arrow" viewBox="0 0 20 20" fill="currentColor">
+                        <path d="M7 17l10-10M7 7h10v10" stroke="currentColor" stroke-width="2" fill="none"/>
+                    </svg>
+                </a>
+
+                <a href="#case-studies" class="mobile-menu-item" data-project="uplant">
+                    <div class="mobile-menu-item-content">
+                        <div class="mobile-menu-item-title">UPlant</div>
+                        <div class="mobile-menu-item-desc">Plant management app with care tracking</div>
+                    </div>
+                    <svg class="mobile-menu-arrow" viewBox="0 0 20 20" fill="currentColor">
+                        <path d="M7 17l10-10M7 7h10v10" stroke="currentColor" stroke-width="2" fill="none"/>
+                    </svg>
+                </a>
+            </div>
+
+            <div class="mobile-menu-actions">
+                <a href="#" class="mobile-menu-btn-primary" onclick="downloadCV()">Download CV</a>
+                <a href="#contact" class="mobile-menu-btn-secondary">Get In Touch</a>
+            </div>
+        </div>
+    </div>
+
     <div class="app-container">
-        <!-- Sidebar -->
+        <!-- Sidebar (Hidden on mobile) -->
         <aside class="sidebar" id="sidebar">
             <div class="sidebar-content">
                 <!-- Profile Section -->
@@ -139,10 +237,7 @@
             </div>
         </aside>
 
-        <!-- Home Button -->
-        <!-- <a href="#about" class="home-button">🏠 Home</a> -->
-
-        <!-- Main Content -->
+        <!-- Main Content (Now takes full width on mobile) -->
         <main class="main-content">
             <div class="content-container">
                 <!-- About Section -->
