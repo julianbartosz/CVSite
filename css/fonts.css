@@ -1,0 +1,66 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+/* Inter font family - various weights and styles */
+@font-face {
+    font-family: Inter;
+    src: url(https://fonts.gstatic.com/s/inter/v12/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuLyfAZ9hiA.woff2) format('woff2');
+    font-display: swap;
+    font-style: normal;
+    font-weight: 400;
+    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+    font-family: Inter;
+    src: url('https://fonts.gstatic.com/s/inter/v12/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuOKfAZ9hiA.woff2') format('woff2');
+    font-display: swap;
+    font-style: normal;
+    font-weight: 500;
+    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+    font-family: Inter;
+    src: url('https://fonts.gstatic.com/s/inter/v12/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuGKYAZ9hiA.woff2') format('woff2');
+    font-display: swap;
+    font-style: normal;
+    font-weight: 600;
+    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+    font-family: Inter;
+    src: url('https://fonts.gstatic.com/s/inter/v12/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuFuYAZ9hiA.woff2') format('woff2');
+    font-display: swap;
+    font-style: normal;
+    font-weight: 700;
+    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+/* Placeholder fonts */
+@font-face {
+    font-family: "Avenir LT Std 85 Heavy Placeholder";
+    src: local("Arial");
+    ascent-override: 70.88%;
+    descent-override: 22.88%;
+    line-gap-override: 18.75%;
+    size-adjust: 106.66%;
+}
+
+@font-face {
+    font-family: "Avenir LT Std 55 Roman Placeholder";
+    src: local("Arial");
+    ascent-override: 74.41%;
+    descent-override: 24.02%;
+    line-gap-override: 19.69%;
+    size-adjust: 101.59%;
+}
+
+@font-face {
+    font-family: Inter Placeholder;
+    src: local("Arial");
+    ascent-override: 89.79%;
+    descent-override: 22.36%;
+    line-gap-override: 0%;
+    size-adjust: 107.89%;
+}
