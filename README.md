@@ -1,262 +1,286 @@
-# Portfolio Website - Refactored Structure
+# Julian Bartosz - Portfolio Website
 
-This repository contains a refactored portfolio website originally built with Framer. The code has been organized into a clean, navigable directory structure for better maintainability and readability.
+A modern, responsive portfolio website showcasing full-stack development expertise. Built with vanilla HTML, CSS, and JavaScript, featuring smooth animations, mobile-first design, and professional presentation of projects and experience.
 
-## Directory Structure
+## 🌟 Live Demo
+
+Visit the live portfolio at: [julianbartosz.github.io/CVSite/](https://julianbartosz.github.io/CVSite/)
+
+## 📁 Project Structure
 
 ```
 CVSite/
-├── index.html              # Main HTML file (clean, organized)
-├── index1.html             # Original file (preserved for reference)
+├── index.html                  # Main portfolio page
 ├── css/
-│   ├── main.css            # Base styles and CSS variables
-│   ├── fonts.css           # Font declarations and @font-face rules
-│   └── components.css      # Framer component styles and layouts
+│   ├── reset.css              # CSS reset styles
+│   ├── variables.css          # CSS custom properties and design tokens
+│   ├── fonts.css              # Font declarations (@font-face rules)
+│   └── components.css         # Component styles and responsive design
 ├── js/
-│   └── main.js             # JavaScript functionality
-├── images/                 # Image assets (to be populated)
-├── assets/                 # Additional assets
-└── README.md               # This file
+│   └── main.js                # Interactive functionality and animations
+├── images/                    # Profile photos, project images, and assets
+│   ├── DSC09920.png          # Profile image
+│   ├── favicon.ico           # Site favicon
+│   └── ...                   # Additional image assets
+├── root/                      # Alternative version/backup files
+│   ├── index.html
+│   ├── css/
+│   └── js/
+├── copilot_docs/             # Project documentation
+├── memory-bank/              # Project context and planning files
+└── README.md                 # This file
 ```
-
-## File Organization
-
-### CSS Files
-
-- **main.css**: Contains base styles, CSS variables, reset styles, and root-level configurations
-- **fonts.css**: All @font-face declarations for Avenir and Inter font families
-- **components.css**: Framer-generated component styles, layout classes, and responsive breakpoints
-
-### JavaScript Files
-
-- **main.js**: Contains Google Analytics, Microsoft Clarity tracking, and URL parameter preservation scripts
-
-### HTML Files
-
-- **index.html**: Clean, refactored main file with proper structure and external resource links
-- **index1.html**: Original file preserved for reference
-
-## Key Improvements
-
-1. **Separation of Concerns**: CSS, JavaScript, and HTML are now in separate files
-2. **Organized Structure**: Logical directory structure for assets and code
-3. **Better Maintainability**: Easier to locate and modify specific functionality
-4. **Cleaner HTML**: Reduced inline styles and scripts in the main HTML file
-5. **Documentation**: Clear file organization and purpose
-
-## Usage
-
-To run the website:
-
-1. Open `index.html` in a web browser
-2. Ensure all CSS and JS files are properly linked
-3. The original functionality is preserved
-
-## Notes
-
-- The extensive Framer-generated CSS has been partially extracted but some complex component styles remain inline for functionality
-- All original JavaScript functionality has been preserved
-- External dependencies (Google Analytics, Clarity, Framer scripts) are maintained
-- The website structure supports easy future modifications and additions
-
-## Development
-
-For further development:
-- Add new styles to the appropriate CSS files
-- Place images in the `images/` directory
-- Add new JavaScript functionality to `js/main.js` or create new JS files
-- Update the HTML structure in `index.html` as needed
 
 ## 🚀 Features
 
-- **Responsive Design** - Works perfectly on desktop, tablet, and mobile devices
-- **Modern UI/UX** - Clean, professional design with smooth animations
-- **Interactive Elements** - Hover effects, smooth scrolling, and dynamic content
-- **Contact Form** - Functional contact form with validation
-- **Performance Optimized** - Fast loading with optimized assets
-- **SEO Ready** - Proper meta tags and semantic HTML structure
+### Design & User Experience
+- **Responsive Design** - Seamless experience across desktop, tablet, and mobile
+- **Modern UI/UX** - Clean, professional design with consistent typography
+- **Smooth Animations** - GSAP-powered animations and scroll effects
+- **Mobile-First Approach** - Optimized mobile experience with dedicated mobile navigation
 - **Accessibility** - WCAG compliant with proper focus states and keyboard navigation
 
-## 🎨 Customization Guide
+### Technical Features
+- **Vanilla JavaScript** - No framework dependencies, lightweight and fast
+- **CSS Grid & Flexbox** - Modern layout techniques for responsive design
+- **Custom CSS Properties** - Maintainable design system with CSS variables
+- **Progressive Enhancement** - Works without JavaScript, enhanced with JS
+- **Performance Optimized** - Fast loading with optimized assets and code
 
-### 1. Personal Information
+### Portfolio Sections
+- **About** - Professional introduction and skill overview
+- **Projects** - Case studies with metrics and detailed descriptions
+- **Tech Stack** - Visual display of technologies and tools
+- **Experience** - Professional work history and education
+- **Publications** - Research papers and articles
+- **Recommendations** - Client testimonials
+- **Contact** - Direct contact form and information
 
-Update the following sections in `index.html`:
+## 🛠️ Technology Stack
 
-**Navigation & Contact:**
-- Line 17: Update `<title>` and meta description
-- Lines 29-37: Update social media links
-- Lines 44-83: Update navigation links (email, LinkedIn, GitHub)
-
-**Hero Section:**
-- Line 102: Update the hero title with your name and experience
-- Lines 103-106: Update your description and specialties
-- Lines 108-112: Update location and availability status
-
-### 2. Skills Section
-
-**Update Skills (Lines 120-169):**
-Replace the skill items with your technologies:
-```html
-<div class="skill-item">
-    <div class="skill-icon">Your Icon</div>
-    <span class="skill-name">Your Skill</span>
-</div>
-```
-
-### 3. Projects Section
-
-**Add Your Projects (Lines 175-230):**
-- Replace placeholder images with your project screenshots
-- Update project titles, descriptions, and technologies
-- Add links to live demos and GitHub repositories
-
-### 4. Experience Section
-
-**Update Work History (Lines 240-280):**
-- Replace with your actual work experience
-- Update job titles, companies, and descriptions
-- Add relevant technologies and achievements
-
-### 5. Contact Information
-
-**Update Contact Details:**
-- Line 29: Update email address
-- Lines 44-83: Update social media URLs
-- Line 286: Update email in contact button
-
-### 6. Colors and Styling
-
-**CSS Variables (styles.css, lines 9-18):**
-```css
-:root {
-    --color-primary: #ff6928;      /* Change primary color */
-    --color-text: #393939;         /* Main text color */
-    --color-text-light: #8e8989;   /* Secondary text color */
-    /* ... other variables */
-}
-```
-
-### 7. Images
-
-Replace placeholder images with your own:
-- **Profile Image**: Update the `src` attribute in the navigation (line 38)
-- **Project Images**: Replace placeholder URLs in project cards
-- Consider using a service like [Unsplash](https://unsplash.com/) for high-quality images
-
-## 🛠️ Development
-
-### Local Development
-
-1. Clone the repository:
-```bash
-git clone https://github.com/yourusername/CVSite.git
-cd CVSite
-```
-
-2. Open `index.html` in your browser or use a local server:
-```bash
-# Using Python
-python -m http.server 8000
-
-# Using Node.js (if you have http-server installed)
-npx http-server
-
-# Using VS Code Live Server extension
-# Right-click on index.html and select "Open with Live Server"
-```
-
-3. Make your customizations and test across different devices
-
-### Deployment Options
-
-**GitHub Pages:**
-1. Push your code to GitHub
-2. Go to Settings > Pages
-3. Select source branch (usually `main`)
-4. Your site will be available at `https://yourusername.github.io/CVSite`
-
-**Netlify:**
-1. Connect your GitHub repository to Netlify
-2. Deploy automatically on every push
-3. Custom domain support available
-
-**Vercel:**
-1. Import your GitHub repository
-2. Automatic deployments and previews
-3. Excellent performance optimization
-
-## 📱 Browser Support
-
-- Chrome (latest)
-- Firefox (latest)
-- Safari (latest)
-- Edge (latest)
-- Mobile browsers (iOS Safari, Chrome Mobile)
-
-## 🔧 Technical Details
-
-**Technologies Used:**
+**Frontend:**
 - HTML5 (Semantic markup)
 - CSS3 (Grid, Flexbox, Custom Properties)
 - Vanilla JavaScript (ES6+)
-- Inter font family
-- SVG icons
+- GSAP (Animation library)
 
-**Performance Features:**
-- Optimized CSS with CSS Grid and Flexbox
-- Smooth animations with `transform` properties
-- Intersection Observer for efficient scroll animations
+**Design:**
+- Inter font family
+- Custom SVG icons
+- Responsive breakpoints
+- CSS variables for theming
+
+**Performance:**
+- Optimized CSS with efficient selectors
 - Debounced scroll events
+- Smooth animations with `transform` properties
 - Semantic HTML for better SEO
+
+## 🎨 Design System
+
+The project uses a comprehensive design system defined in `css/variables.css`:
+
+```css
+:root {
+  /* Primary brand color */
+  --color-primary: rgb(255, 105, 40);
+  
+  /* Typography scale */
+  --font-family-primary: 'Inter', sans-serif;
+  --font-size-base: 16px;
+  --font-weight-semibold: 600;
+  
+  /* Spacing system */
+  --space-md: 16px;
+  --space-lg: 24px;
+  
+  /* Border radius */
+  --radius-md: 19px;
+  --radius-xl: 34px;
+  
+  /* Layout */
+  --sidebar-width: 280px;
+}
+```
+
+## 📱 Responsive Behavior
+
+### Desktop (>1023px)
+- Fixed sidebar with profile and navigation
+- Main content area with floating navigation
+- Hover effects and smooth animations
+- Full-width case study layouts
+
+### Mobile (≤1023px)
+- Collapsible mobile menu with hamburger button
+- Fixed mobile profile section at top
+- Touch-optimized navigation
+- Stacked layout for better readability
+- Project-focused mobile menu
+
+## 🔧 Key Components
+
+### Mobile Profile Section
+Fixed header on mobile with profile image, name, status, and action buttons.
+
+### Floating Navigation
+Contextual navigation that highlights active sections during scroll.
+
+### Case Studies
+Interactive project cards with metrics, descriptions, and hover effects.
+
+### Tech Stack Grid
+Visual grid of technologies with logos and hover states.
+
+### Contact Form
+Functional contact form with validation and email copy feature.
+
+## 📈 Performance Features
+
+- **Efficient CSS** - Organized into logical files with minimal redundancy
+- **Optimized Images** - Proper image formats and lazy loading
+- **Smooth Scrolling** - Hardware-accelerated scroll animations
+- **Touch Optimization** - Proper touch targets and mobile interactions
+- **SEO Ready** - Semantic HTML, meta tags, and proper heading structure
+
+## 🚀 Getting Started
+
+### Prerequisites
+- A modern web browser
+- Optional: Local development server for best experience
+
+### Installation
+
+1. **Clone the repository:**
+   ```bash
+   git clone https://github.com/julianbartosz/CVSite.git
+   cd CVSite
+   ```
+
+2. **Open locally:**
+   - **Simple**: Open `index.html` directly in your browser
+   - **With server** (recommended):
+     ```bash
+     # Using Python
+     python -m http.server 8000
+     
+     # Using Node.js
+     npx http-server
+     
+     # Using VS Code Live Server
+     # Install Live Server extension and right-click index.html
+     ```
+
+3. **View the site:**
+   Navigate to `http://localhost:8000` (or the port shown by your server)
+
+## 🎯 Customization Guide
+
+### Personal Information
+1. **Profile Details** (Lines 44-50 in `index.html`):
+   - Update profile image path
+   - Change name, title, and location
+   - Modify availability status
+
+2. **Contact Information**:
+   - Update email address throughout the file
+   - Change social media links in sidebar and mobile sections
+   - Update contact form handling
+
+### Content Sections
+1. **About Section** (Lines 244-276):
+   - Modify the main description
+   - Update technology tags
+   - Change professional summary
+
+2. **Projects** (Lines 284-356):
+   - Replace project titles and descriptions
+   - Update metrics and performance indicators
+   - Add project images and links
+
+3. **Experience** (Lines 494-530):
+   - Update work history
+   - Change company names and positions
+   - Modify date ranges
+
+### Styling & Branding
+1. **Colors** (`css/variables.css`):
+   ```css
+   --color-primary: rgb(255, 105, 40); /* Your brand color */
+   ```
+
+2. **Typography**:
+   - Modify font choices in `css/fonts.css`
+   - Adjust font sizes in `css/variables.css`
+
+3. **Layout**:
+   - Customize spacing and sizing variables
+   - Modify component styles in `css/components.css`
+
+## 🌐 Deployment
+
+### GitHub Pages
+1. Push your code to GitHub
+2. Go to repository Settings > Pages
+3. Select source branch (usually `main`)
+4. Site will be available at `https://yourusername.github.io/CVSite`
+
+### Netlify
+1. Connect GitHub repository to Netlify
+2. Deploy automatically on every push
+3. Custom domain support available
+
+### Vercel
+1. Import GitHub repository
+2. Automatic deployments and previews
+3. Excellent performance optimization
+
+## 📊 Browser Support
+
+- **Chrome** (latest)
+- **Firefox** (latest)
+- **Safari** (latest)
+- **Edge** (latest)
+- **Mobile browsers** (iOS Safari, Chrome Mobile)
 
 ## 📝 Content Guidelines
 
-**Writing Tips:**
+### Writing
 - Keep descriptions concise and impactful
 - Use action verbs in experience descriptions
 - Quantify achievements where possible
-- Highlight technologies relevant to your target roles
-- Ensure consistent tone throughout
+- Maintain consistent tone throughout
 
-**Image Guidelines:**
+### Images
 - Use high-quality images (at least 1200px wide for projects)
 - Maintain consistent aspect ratios
-- Optimize images for web (WebP format recommended)
-- Include alt text for accessibility
+- Optimize for web (WebP format recommended)
+- Include descriptive alt text
 
-## 🎯 SEO Optimization
+## 🤝 Contributing
 
-The site includes:
-- Proper HTML structure with semantic elements
-- Meta descriptions and Open Graph tags
-- Descriptive alt text for images
-- Clean, descriptive URLs
-- Fast loading times
-- Mobile-friendly design
+This is a personal portfolio project, but suggestions and improvements are welcome:
 
-## 🚀 Next Steps
-
-1. **Customize Content**: Update all placeholder content with your information
-2. **Add Your Images**: Replace placeholders with professional photos and project screenshots
-3. **Test Thoroughly**: Check on different devices and browsers
-4. **Deploy**: Choose a hosting platform and deploy your site
-5. **Share**: Add the link to your LinkedIn, GitHub, and resume
-
-## 📞 Support
-
-If you need help customizing this template:
-1. Check the comments in the code files
-2. Refer to this README for guidance
-3. Test changes incrementally
-4. Use browser developer tools for debugging
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Test across different browsers and devices
+5. Submit a pull request
 
 ## 📄 License
 
 This project is open source and available under the [MIT License](LICENSE).
 
+## 🙋‍♂️ About Julian Bartosz
+
+Full-Stack Software Engineer with 2+ years of experience building end-to-end web applications. Specializes in modern JavaScript frameworks, backend API development, and user experience design.
+
+**Connect:**
+- 🌐 [Portfolio](https://julianbartosz.github.io/CVSite/)
+- 💼 [LinkedIn](https://linkedin.com/in/julianbartosz)
+- 🐙 [GitHub](https://github.com/julianbartosz)
+- 📧 [Email](mailto:bartoszjul@gmail.com)
+
 ---
 
-**Happy coding!** 🎉
-
-Remember to update this README with your own information once you've customized the portfolio.
+**Built with ❤️ using vanilla web technologies**
