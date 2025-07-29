@@ -62,7 +62,7 @@ document.addEventListener('DOMContentLoaded', function() {
     initializeMobileMenu();
     
     // Add dynamic mobile profile spacing
-    adjustMobileProfileSpacing();
+    // adjustMobileProfileSpacing();
     
     setTimeout(() => {
         enhanceSidebarAnimations();
@@ -114,7 +114,7 @@ function initializeMobileMenu() {
             mobileMenuBtn.style.display = 'flex';
             document.body.classList.add('mobile-layout');
             // Recalculate mobile profile spacing on resize
-            adjustMobileProfileSpacing();
+            // adjustMobileProfileSpacing();
         } else {
             mobileMenuBtn.style.display = 'none';
             mobileMenu.classList.remove('open');
